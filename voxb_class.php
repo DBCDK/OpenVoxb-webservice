@@ -1145,7 +1145,10 @@ class voxb extends webServiceServer {
 
     // Fetch locals data
     try {
-      $this->oci->set_query("select LOCALID, ITEMID, DATA, TYPE, ITEMTYPE from voxb_locals where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
+      $this->oci->bind('userId', $userId);
+			$item_data_subselect="SELECT ITEMIDENTIFIERVALUE from voxb_items where userId=:userId and disabled IS NULL";
+
+      $this->oci->set_query("select LOCALID, ITEMID, DATA, TYPE, ITEMTYPE from voxb_locals where ITEMID in ($item_data_subselect)");
       while ($data = $this->oci->fetch_into_assoc()) {
         $item_data[$data['ITEMID']]['LOCALS'][$data['LOCALID']] = $data;
       }
@@ -1156,7 +1159,9 @@ class voxb extends webServiceServer {
 
     // Fetch review data
     try {
-      $this->oci->set_query("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
+      $this->oci->bind('userId', $userId);
+			$item_data_subselect="SELECT ITEMIDENTIFIERVALUE from voxb_items where userId=:userId and disabled IS NULL";
+      $this->oci->set_query("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in ($item_data_subselect)");
       while ($data = $this->oci->fetch_into_assoc()) {
         $item_data[$data['ITEMID']]['REVIEWS'][$data['REVIEWID']] = $data;
       }
@@ -1167,7 +1172,9 @@ class voxb extends webServiceServer {
 
     // Fetch tags data
     try {
-      $this->oci->set_query("select TAG, ITEMID from voxb_tags where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
+      $this->oci->bind('userId', $userId);
+			$item_data_subselect="SELECT ITEMIDENTIFIERVALUE from voxb_items where userId=:userId and disabled IS NULL";
+      $this->oci->set_query("select TAG, ITEMID from voxb_tags where ITEMID in ($item_data_subselect)");
       while ($data = $this->oci->fetch_into_assoc()) {
         $item_data[$data['ITEMID']]['TAGS'][] = $data['TAG'];
       }
