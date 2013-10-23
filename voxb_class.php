@@ -1147,7 +1147,6 @@ class voxb extends webServiceServer {
     try {
       $this->oci->bind('userId', $userId);
 			$item_data_subselect="SELECT ITEMIDENTIFIERVALUE from voxb_items where userId=:userId and disabled IS NULL";
-
       $this->oci->set_query("select LOCALID, ITEMID, DATA, TYPE, ITEMTYPE from voxb_locals where ITEMID in ($item_data_subselect)");
       while ($data = $this->oci->fetch_into_assoc()) {
         $item_data[$data['ITEMID']]['LOCALS'][$data['LOCALID']] = $data;
@@ -1175,6 +1174,7 @@ class voxb extends webServiceServer {
       $this->oci->bind('userId', $userId);
 			$item_data_subselect="SELECT ITEMIDENTIFIERVALUE from voxb_items where userId=:userId and disabled IS NULL";
       $this->oci->set_query("select TAG, ITEMID from voxb_tags where ITEMID in ($item_data_subselect)");
+
       while ($data = $this->oci->fetch_into_assoc()) {
         $item_data[$data['ITEMID']]['TAGS'][] = $data['TAG'];
       }
