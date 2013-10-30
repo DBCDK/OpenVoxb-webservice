@@ -979,11 +979,17 @@ class voxb extends webServiceServer {
                 $oData['SUMMARY']['TAGS'][$tag] += $count;
               }
             }
-            if (!empty($item['RATING']) && count($oData['ITEMS'])>1) {
-              $oData['SUMMARY']['RATING_SUM'] += (float) $item['RATING'];
-              $oData['SUMMARY']['RATING_COUNT']++;
-              $oData['SUMMARY']['RATINGS'][$item['RATING']]++;
-            }
+            if (!empty($item['RATING'])) {
+							if(count($oData['ITEMS'])>1) {
+              	$oData['SUMMARY']['RATING_SUM'] += (float) $item['RATING'];
+              	$oData['SUMMARY']['RATING_COUNT']++;
+              	$oData['SUMMARY']['RATINGS'][$item['RATING']]++;
+							} else {
+							  $oData['SUMMARY']['RATING_SUM'] = $item['RATING'];
+                $oData['SUMMARY']['RATING_COUNT']=1;
+                $oData['SUMMARY']['RATINGS'][$item['RATING']]=1;
+							} 
+            } 
           }
           unset($item);
         }
