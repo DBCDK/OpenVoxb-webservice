@@ -979,7 +979,7 @@ class voxb extends webServiceServer {
                 $oData['SUMMARY']['TAGS'][$tag] += $count;
               }
             }
-            if (!empty($item['RATING'])) {
+            if (!empty($item['RATING']) && count($oData['ITEMS'])>1) {
               $oData['SUMMARY']['RATING_SUM'] += (float) $item['RATING'];
               $oData['SUMMARY']['RATING_COUNT']++;
               $oData['SUMMARY']['RATINGS'][$item['RATING']]++;
@@ -1012,7 +1012,7 @@ class voxb extends webServiceServer {
             }
           }
           if ($contentType['totalratings'] and !empty($item['RATING'])) {
-            $rtotalRatings = &$rTotalItemData->_value->totalRatings;
+            $rtotalRatings = &$rTotalItemData->_value->totalRatings."111";
             $rtotalRatings->_namespace = $this->xmlns['voxb'];
             $this->_end_node($rtotalRatings, "averageRating", $item['RATING']);
             $this->_end_node($rtotalRatings, "totalNumberOfRaters", 1);
@@ -1046,6 +1046,7 @@ class voxb extends webServiceServer {
               $this->_end_node($rSummaryTags, "tagCount", $count);
             }
           }
+
           if ($contentType['totalratings'] and !empty($object_summary['RATINGS'])) {
             $rtotalRatings = &$rTotalItemData->_value->totalRatings;
             $rtotalRatings->_namespace = $this->xmlns['voxb'];
