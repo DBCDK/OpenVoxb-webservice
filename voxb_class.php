@@ -727,6 +727,17 @@ class voxb extends webServiceServer {
         }
       }
     }
+
+    // check for orderBy
+    if (isset($params->output->_value->orderBy)) {
+      // if it's an array
+      if (is_array($params->output->_value->orderBy)) {
+        $orderBy = &$params->output->_value->orderBy;
+      }
+     
+    }
+        
+    
     if (empty($contentType)) {
       return self::_error(CONTENTTYPES_MISSING);
     }
