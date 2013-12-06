@@ -852,8 +852,9 @@ class voxb extends webServiceServer {
       }
     
       if(!empty($orderby)) {
-	$this->oci->set_query("select * from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
+	$this->oci->set_query("select objectid from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
       	$data = $this->oci->fetch_all_into_assoc();
+      	echo "<pre>";
       	print_r($data);
       }
       
