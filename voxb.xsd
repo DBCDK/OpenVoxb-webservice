@@ -330,6 +330,7 @@
 					<xs:element ref="voxb:institutionId"/>
 				</xs:sequence>
 				<xs:element ref="voxb:voxbIdentifier"/>
+				<xs:element ref="voxb:latestReviews"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
@@ -706,6 +707,11 @@
 	<xs:element name="voxbIdentifier" type="xs:integer">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">The VOXB database unique number for a voxb item.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="latestReviews" type="xs:integer">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Fetches a list of latest reviews sorted by date, the number sets the length of the list.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:simpleType name="booleanOperatorType">
