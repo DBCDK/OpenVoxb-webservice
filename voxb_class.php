@@ -741,32 +741,34 @@ class voxb extends webServiceServer {
     $ilist = $olist = $openXIds = array();
     if (is_array($fetchData)) {
       foreach ($fetchData as $v) {
-				$objectIdentifierValue=$v->_value->voxbIdentifier->_value;
+	$objectIdentifierValue=$v->_value->voxbIdentifier->_value;
         if (isset($v->_value->voxbIdentifier->_value)) {
           // Requested data element is an item
           $ilist[] = $v->_value->voxbIdentifier->_value;
           $result[]['ITEM'] = $v->_value->voxbIdentifier->_value;
+        } 
+        else if (isset($v->_value->latestReviews->_value)) { 
+        	echo $v->_value->latestReviews->_value;
+        	exit();
+        	        
         } else {
+		$objectIdentifierValue=$v->_value->objectIdentifierValue->_value;
 
-
-				$objectIdentifierValue=$v->_value->objectIdentifierValue->_value;
-
-
-				switch($v->_value->objectIdentifierType->_value) {
-					case "ISBN":
-						$objectIdentifierValue=materialId::normalizeISBN($objectIdentifierValue);
-						//$objectIdentifierValue=materialId::convertISBNToEAN($objectIdentifierValue);
-					break;
-					case "ISSN":
-						$objectIdentifierValue=materialId::normalizeISSN($objectIdentifierValue);
-					break;
-					case "EAN":
-						$objectIdentifierValue=materialId::normalizeEAN($objectIdentifierValue);
-					break;
-					case "FAUST":
-						$objectIdentifierValue=materialId::normalizeFAUST($objectIdentifierValue);
-					break;
-				}
+			switch($v->_value->objectIdentifierType->_value) {
+				case "ISBN":
+					$objectIdentifierValue=materialId::normalizeISBN($objectIdentifierValue);
+					//$objectIdentifierValue=materialId::convertISBNToEAN($objectIdentifierValue);
+				break;
+				case "ISSN":
+					$objectIdentifierValue=materialId::normalizeISSN($objectIdentifierValue);
+				break;
+				case "EAN":
+					$objectIdentifierValue=materialId::normalizeEAN($objectIdentifierValue);
+				break;
+				case "FAUST":
+					$objectIdentifierValue=materialId::normalizeFAUST($objectIdentifierValue);
+				break;
+			}
 
           // Requested data element is an object
           $olist[] = "(OBJECTIDENTIFIERVALUE='" . $objectIdentifierValue . "' AND OBJECTIDENTIFIERTYPE='" . $v->_value->objectIdentifierType->_value . "')";
