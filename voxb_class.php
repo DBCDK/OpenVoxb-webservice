@@ -748,9 +748,7 @@ class voxb extends webServiceServer {
           $result[]['ITEM'] = $v->_value->voxbIdentifier->_value;
         } 
         else if (isset($v->_value->latestReviews->_value)) { 
-        	echo $v->_value->latestReviews->_value;
-        	exit();
-        	        
+        	$orderby = " order by creation_date DESC";        
         } else {
 		$objectIdentifierValue=$v->_value->objectIdentifierValue->_value;
 
@@ -838,17 +836,27 @@ class voxb extends webServiceServer {
       if (!empty($olist))     $where_clause[] = "i.objectid IN (select distinct objectid from voxb_objects where " . implode(" OR ", $olist) . ")";
       if (!empty($oxid_list)) $where_clause[] = "i.objectid IN (select distinct objectid from voxb_objects where " . implode(" OR ", $oxid_list) . ")";
       if (!empty($ilist))     $where_clause[] = "ITEMIDENTIFIERVALUE in (" . implode(",", $ilist) . ")";
-      if (empty($where_clause)) {
+      //mkr
+      if (empty($where_clause) && empty($orderby)) {
         return self::_error(NO_ITEMS_OR_OBJECTS_TO_FETCH);
       }
-      $this->oci->set_query("select ITEMIDENTIFIERVALUE, USERID, OBJECTID, RATING, replace(to_char(creation_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as CREATION_DATE, replace(to_char(modification_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as MODIFICATION_DATE from voxb_items i " .
+      if(!empty($where_clause)) {
+      	$this->oci->set_query("select ITEMIDENTIFIERVALUE, USERID, OBJECTID, RATING, replace(to_char(creation_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as CREATION_DATE, replace(to_char(modification_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as MODIFICATION_DATE from voxb_items i " .
                       "where (" . implode(" OR ", $where_clause) . ") and disabled IS NULL");
-      while ($data = $this->oci->fetch_into_assoc()) {
-        if (isset($derived_oxid_id[$data['OBJECTID']])) {
-          $data['OBJECTID'] = $derived_oxid_id[$data['OBJECTID']];  // Overwrite the openxid's object id with the requested object id (though we know that this is a "similar" id derived from openxid)
+        while ($data = $this->oci->fetch_into_assoc()) {
+          if (isset($derived_oxid_id[$data['OBJECTID']])) {
+            $data['OBJECTID'] = $derived_oxid_id[$data['OBJECTID']];  // Overwrite the openxid's object id with the requested object id (though we know that this is a "similar" id derived from openxid)
+          }
+          $item_data[$data['ITEMIDENTIFIERVALUE']] = $data;
         }
-        $item_data[$data['ITEMIDENTIFIERVALUE']] = $data;
       }
+    
+      if(!empty($orderby)) {
+	$this->oci->set_query("select * from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
+      	$data = $this->oci->fetch_all_into_assoc();
+      	print_r($data);
+      }
+      
     } catch (ociException $e) {
       verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
       return self::_error(ERROR_FETCHING_ITEM_FROM_DATABASE);
