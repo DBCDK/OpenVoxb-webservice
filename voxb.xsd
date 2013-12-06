@@ -221,7 +221,6 @@
 			<xs:sequence>
 				<xs:element ref="voxb:fetchData" maxOccurs="unbounded"/>
 				<xs:element ref="voxb:output"/>
-				<xs:element ref="voxb:order" minOccurs="0"/>
 				<xs:element ref="voxb:callback" minOccurs="0"/>
 				<xs:element ref="voxb:outputType" minOccurs="0"/>
 			</xs:sequence>
@@ -418,16 +417,6 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="orderBy" type="voxb:orderByType">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Only date is supported currently.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="orderDir" type="voxb:orderDirType">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Two types are supported, ASC and DESC. ASC is ascending order and DESC is descending order.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="objectContributors" type="xs:string">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Contributor:Writer, Editor, Illustrator etc. If more than one contributor they should be separated by ";"</xs:documentation>
@@ -481,18 +470,6 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element ref="voxb:outputForm" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="order">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Specification of the output order.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="voxb:orderBy"/>
-				<xs:element ref="voxb:orderDir"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -731,17 +708,6 @@
 			<xs:documentation xml:lang="en">The VOXB database unique number for a voxb item.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:simpleType name="orderDirType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="ASC"/>
-			<xs:enumeration value="DESC"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="orderByType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="date"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:simpleType name="booleanOperatorType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="AND"/>
