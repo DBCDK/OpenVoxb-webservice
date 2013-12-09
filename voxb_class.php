@@ -880,7 +880,6 @@ class voxb extends webServiceServer {
 		$institutionId = str_replace("'", "''", strip_tags($fetchData[0]->_value->institutionId->_value));
 
     // Fetch locals data mkr
-		if(!isset($orderby)) {
     try {
 			if(!empty($institutionId)) {
 				$delete=array();
@@ -914,7 +913,6 @@ class voxb extends webServiceServer {
     } catch (ociException $e) {
       verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
       return self::_error(ERROR_FETCHING_LOCALS_DATA_FROM_DATABASE);
-    }
     }
 
     // Fetch review data
