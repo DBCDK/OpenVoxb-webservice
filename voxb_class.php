@@ -741,14 +741,16 @@ class voxb extends webServiceServer {
     $ilist = $olist = $openXIds = array();
     if (is_array($fetchData)) {
       foreach ($fetchData as $v) {
-	$objectIdentifierValue=$v->_value->voxbIdentifier->_value;
+				$objectIdentifierValue=$v->_value->voxbIdentifier->_value;
         if (isset($v->_value->voxbIdentifier->_value)) {
           // Requested data element is an item
           $ilist[] = $v->_value->voxbIdentifier->_value;
           $result[]['ITEM'] = $v->_value->voxbIdentifier->_value;
         } 
         else if (isset($v->_value->latestReviews->_value)) { 
-        	$orderby = " order by creation_date DESC";        
+        	$orderby = " order by creation_date DESC";
+					$limit=$v->_value->latestReviews->_value;
+					if($limit>100) $limit=100;
         } else {
 		$objectIdentifierValue=$v->_value->objectIdentifierValue->_value;
 
@@ -850,12 +852,20 @@ class voxb extends webServiceServer {
           $item_data[$data['ITEMIDENTIFIERVALUE']] = $data;
         }
       }
-    
+
+   		//mkr 
       if(!empty($orderby)) {
-	$this->oci->set_query("select objectid from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
-      	$data = $this->oci->fetch_all_into_assoc();
-      	echo "<pre>";
-      	print_r($data);
+				$this->oci->set_query("select * from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
+      	while($data = $this->oci->fetch_into_assoc()) {
+			  	$item_data[$data['ITEMIDENTIFIERVALUE']]=$data;
+          $result[]['ITEM'] = $data['ITEMIDENTIFIERVALUE'];
+					
+				}
+
+				#echo $in_string; echo "<pre>"; print_r($item_data);
+				$item_data=array_slice($item_data,0,$limit,true);
+				$result=array_slice($result,0,$limit,true);
+				
       }
       
     } catch (ociException $e) {
@@ -866,10 +876,11 @@ class voxb extends webServiceServer {
     if (empty($item_data)) {
       return self::_error(COULD_NOT_FIND_ITEM);
     }
-
+		
 		$institutionId = str_replace("'", "''", strip_tags($fetchData[0]->_value->institutionId->_value));
 
     // Fetch locals data mkr
+		if(!isset($orderby)) {
     try {
 			if(!empty($institutionId)) {
 				$delete=array();
@@ -890,6 +901,7 @@ class voxb extends webServiceServer {
 					}
 				}
 			}
+			
 
 			if (empty($item_data)) {
       	return self::_error(COULD_NOT_FIND_ITEM);
@@ -903,13 +915,18 @@ class voxb extends webServiceServer {
       verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
       return self::_error(ERROR_FETCHING_LOCALS_DATA_FROM_DATABASE);
     }
+    }
 
     // Fetch review data
     try {
+      #echo ("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
       $this->oci->set_query("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
       while ($data = $this->oci->fetch_into_assoc()) {
         $review_data[$data['REVIEWID']] = $data;
       }
+
+			#print_r($review_data);
+			#exit();
     } catch (ociException $e) {
       verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
       return self::_error(ERROR_FETCHING_REVIEW_DATA_FROM_DATABASE);
@@ -1009,6 +1026,9 @@ class voxb extends webServiceServer {
       unset($oData);
     }
 
+
+		#echo "<pre>";
+		#print_r($item_data);
 
     // Now prepare output data
     if (is_array($result)) {
