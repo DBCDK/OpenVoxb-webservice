@@ -8,7 +8,7 @@
          </voxb:fetchData>
          <voxb:output>
             <!--1 or more repetitions:-->
-            <voxb:contentType>all</voxb:contentType>
+            <voxb:contentType>review</voxb:contentType>
          </voxb:output>
       </voxb:fetchDataRequest>
    </soapenv:Body>
