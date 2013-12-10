@@ -713,6 +713,12 @@
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Fetches a list of latest reviews sorted by date, the number sets the length of the list.</xs:documentation>
 		</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:minInclusive value="1"/>
+					<xs:maxInclusive value="100"/>
+				</xs:restriction>
+		</xs:simpleType>
 	</xs:element>
 	<xs:simpleType name="booleanOperatorType">
 		<xs:restriction base="xs:string">
