@@ -807,7 +807,7 @@ class voxb extends webServiceServer {
         }
 				foreach($objects_by_id as $k=>$v) {
 					if($k!=$tv) {
-						$objects_by_id[$k]=&$objects_by_id[$tv];
+						//$objects_by_id[$k]=&$objects_by_id[$tv];
 					}
 				}
       }
