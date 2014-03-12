@@ -327,7 +327,7 @@
 				<xs:sequence>
 					<xs:element ref="voxb:objectIdentifierValue"/>
 					<xs:element ref="voxb:objectIdentifierType"/>
-					<xs:element ref="voxb:institutionId"/>
+					<xs:element ref="voxb:institutionId" minOccurs="0"/>
 				</xs:sequence>
 				<xs:element ref="voxb:voxbIdentifier"/>
 				<xs:element ref="voxb:latestReviews"/>
