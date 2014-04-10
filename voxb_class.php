@@ -4,7 +4,12 @@ require_once("./OLS_class_lib/webServiceServer_class.php");
 require_once("./OLS_class_lib/oci_class.php");
 require_once("./OLS_class_lib/material_id_class.php");
 
+require_once('openXidWrapper_class.php');
+require_once('voxb_logger_class.php');
 require_once("voxb_constants.php");
+
+require_once("voxb_items_class.php");
+require_once('voxb_objects_class.php');
 
 $voxb_error = array(
   CONTENTTYPES_MISSING => "contentTypes missing",
@@ -72,142 +77,18 @@ $voxb_qualifiers = array(
 
 
 
-class voxb_logger {
-  var $caller;  // Owner object
-  var $method;
-  var $userId = 0;
-  var $timestamp; // float
-  var $p1 = 0;
-  var $p2 = 0;
-  var $p3 = 0;
-  var $p4 = 0;
-  var $p5 = 0;
-  var $p6 = 0;
-  var $p7 = 0;
-  var $text = "";
-  var $error = 0;
-
-  function __construct($caller, $method_name) {
-    $this->caller = $caller;
-    $this->method = $method_name;
-    $this->timestamp = microtime(true); 
-  }
-  
-  function __destruct() {
-    $elapsed = microtime(true) - $this->timestamp;
-    self::log($elapsed);
-  }
-
-  function log($elapsed=0) {
-    if (empty($this->caller->oci)) {
-      verbose::log(FATAL, "Voxb Error $this->error in $this->method, $elapsed");
-    } else {
-			$logline="method:".$this->method."userId:".$this->userId." p1:".$this->p1." p2:".$this->p2." p3:".$this->p3." p4:".$this->p4." p5:".$this->p5." p6:".$this->p6." p7:".$this->p7." text:".$this->text." error:".$this->error." elapsed:".$elapsed;
-      verbose::log(STAT, $logline);
-    }
-  }
-
-  function set_error($value) { $this->error = is_int($value) ? $value : 0; }
-  function set_userId($value) { $this->userId = is_int($value) ? $value : 0; }
-  function add_p1($value) { $this->p1 += $value; }
-  function add_p2($value) { $this->p2 += $value; }
-  function add_p3($value) { $this->p3 += $value; }
-  function add_p4($value) { $this->p4 += $value; }
-  function add_p5($value) { $this->p5 += $value; }
-  function add_p6($value) { $this->p6 += $value; }
-  function add_p7($value) { $this->p7 += $value; }
-  function set_text($value) { $this->text = $value; }
-
-}
 
 
-
-//==============================================================================
-
-/** \brief openXidWrapper
- *
- * This class takes care of packing and sending an openXId request, an receiving the
- * corresponding response to it, and unpack the response.
- * 
- * @param DOMNode $node Parent node, hvor alle børne elementer ønskes
- * @return DOMNode array af DOMElement's
- *
- */
-
-class openXidWrapper {
-  private function __construct() {}
-  
-  private function _buildGetIdsRequest($requestedIds) {
-    $requestDom = new DOMDocument('1.0', 'UTF-8');
-    $requestDom->formatOutput = true;
-    $soapEnvelope = $requestDom->createElementNS('http://schemas.xmlsoap.org/soap/envelope/', 'soapenv:Envelope');
-    $soapEnvelope->setAttribute('xmlns:xid', 'http://oss.dbc.dk/ns/openxid');
-    $requestDom->appendChild($soapEnvelope);
-    $soapBody = $soapEnvelope->appendChild($requestDom->createElement('soapenv:Body'));
-    $getIdsRequest = $soapBody->appendChild($requestDom->createElement('xid:getIdsRequest'));
-    if (is_array($requestedIds)) foreach ($requestedIds as $requestedId) {
-      $id = $getIdsRequest->appendChild($requestDom->createElement('xid:id'));
-      if (strtolower($requestedId['idType']) == 'isbn') $requestedId['idType'] = 'ean';    // Convert from isbn to EAN
-      $id->appendChild($requestDom->createElement('xid:idType', strtolower($requestedId['idType'])));
-      $id->appendChild($requestDom->createElement('xid:idValue', $requestedId['idValue']));
-    }
-    return $requestDom->saveXML();
-  }
-
-  private function _parseGetIdsResponse($response) {
-    @$dom = DOMDocument::loadXML($response,  LIBXML_NOERROR);
-    if (empty($dom)) return "Error parsing the DOM Document";
-    $getIdsResponse = $dom->getElementsByTagName('getIdsResponse')->item(0);
-    if ($getIdsResponse->firstChild->localName == 'error') return $getIdsResponse->firstChild->nodeValue;
-    foreach ($getIdsResponse->childNodes as $getIdResult) {
-      $item = array();
-      if ($getIdResult->localName != 'getIdResult') continue;  // Unexpected - take the next getIdResult
-      $requestedId = $getIdResult->firstChild;
-      if ($requestedId->localName != 'requestedId') continue;  // Unexpected - take the next getIdResult
-      foreach ($requestedId->childNodes as $node) {
-        if ($node->localName == 'idType') $item['requestedId']['idType'] = $node->nodeValue;
-        if ($node->localName == 'idValue') $item['requestedId']['idValue'] = $node->nodeValue;
-      }
-      $next = $requestedId->nextSibling;
-      if ($next->localName == 'ids') {
-        $ids = $next;
-        $id = $ids->childNodes;
-        foreach ($id as $i) {
-          $idItem = array();
-          foreach ($i->childNodes as $child) {
-            if ($child->localName == 'idType') $idItem['idType'] = $child->nodeValue;
-            if ($child->localName == 'idValue') $idItem['idValue'] = $child->nodeValue;
-          }
-          $item['ids']['id'][] = $idItem;
-        }
-        $next = $ids->nextSibling;
-      }
-      if ($next->localName == 'error') {
-        $item['error'] = $next->nodeValue;
-      }
-    $result[] = $item;
-    }
-    return $result;
-  }
-
-  function sendGetIdsRequest($url, $requestedIds) {
-    $curl = new cURL();
-    $curl->set_timeout(10);
-    $curl->set_post_xml(self::_buildGetIdsRequest($requestedIds));
-    $res = $curl->get($url);
-    $curl->close();
-    return self::_parseGetIdsResponse($res);
-  }
-  
-}
-
-//==============================================================================
 
 
 class voxb extends webServiceServer {
   var $content;
   var $response;
   var $log;
+
+  public static $OpenXidUrl;
+
+
 
   /** createMyData
    *
@@ -682,6 +563,10 @@ class voxb extends webServiceServer {
 
 
 
+  /*****************' PJO REFACTORING FETCHDATA METHOD  *******************/
+
+ 
+
   /** fetchData
    *
    *
@@ -695,11 +580,35 @@ class voxb extends webServiceServer {
    * - p7 = antal objects med aktive items
    *
    */
+
   function fetchData($params) {
     if ($error = $this->_prolog(__FUNCTION__) ) {
       return self::_error($error);
     }
 
+    $contentType = $this->setContentType($params);    
+    if (empty($contentType)) {
+      return self::_error(CONTENTTYPES_MISSING);
+    } 
+
+    // get the data to output (@see voxb_items_class.php)
+    $voxb_items = new voxb_items($this->oci, $params);
+    $data =  $voxb_items->data();  
+
+    $error = $voxb_items->getError();
+    if (!empty($error) ) {
+      return self::_error($error);
+    }
+
+    $response = $this->outputData($data, $contentType, 'fetchDataResponse');
+    return $this->_epilog($response);    
+  }
+
+
+  /* *
+   *  Set contentType according to parameter in request 
+   */
+  function setContentType($params){
     // check for contentType
     if (isset($params->output->_value->contentType)) {
       // if it's an array
@@ -712,415 +621,268 @@ class voxb extends webServiceServer {
         foreach ($cT as $v) {
           $cType = strtolower($v->_value);
           switch($cType) {
-            case 'review':
-            case 'tags':
-            case 'summarytags':
-            case 'rating':
-            case 'totalratings':
-            case 'local':
-              $contentType[$cType] = true;
-              break;
-            case 'all':
-               $contentType = array('review'=>true, 'tags'=>true, 'summarytags'=>true, 'rating'=>true, 'totalratings'=>true, 'local'=>true);
-              break;
+	  case 'review':
+	  case 'tags':
+	  case 'summarytags':
+	  case 'rating':
+	  case 'totalratings':
+	  case 'local':
+	    $contentType[$cType] = true;
+	    break;
+	  case 'all':
+	    $contentType = array('review'=>true, 'tags'=>true, 'summarytags'=>true, 'rating'=>true, 'totalratings'=>true, 'local'=>true);
+	    break;
+	    // return empty array as default.
+	  default :
+	    $contentType = array();
           }
         }
       }
     }
+    return $contentType;  
+  }  
+
+
+  /** Output data in OLS object.
+   *
+   * @param array $data; [identifier=>[itemid,itemdata]]
+   * @param array $contentType; one or all off: [review, tags, summary, rating, totalRatings, local, object]
+   */
+  function outputData($data, $contentType, $responseName='fetchDataResponse'){ 
+    $response->$responseName->_namespace = $this->xmlns['voxb'];
+    foreach($data as $identifier => $value){
+      $response->$responseName->_value->totalItemData[] = $this->setFetchDataTotalItemData($identifier,$value, $contentType);;
+    }
+    return $response;
+  }  
+
+  /** Output totalItemData element
+   *
+   */
+  function setFetchDataTotalItemData($identifier, $value, $contentType){
+     $element->_namespace = $this->xmlns['voxb'];
+
+     if(isset($value['OBJECTIDENTIFIERTYPE']) && isset($value['OBJECTIDENTIFIERVALUE'])){
+       // this is an object request
+       $itemid = array($value['OBJECTIDENTIFIERTYPE'],$value['OBJECTIDENTIFIERVALUE']);
+     }
+     else{
+       $itemid = $identifier;
+     }
+     $element->_value->fetchData = $this->setFetchDataIdentifier($itemid);
+
+     // set summaryTags   
+     $summary = $this->getSummaryTags($value['ITEMDATA'], $contentType);
+     if(!empty($summary['summaryTags']) ){
+       foreach( $summary['summaryTags'] as $tag=>$count ){
+	 $element->_value->summaryTags[] = $this->outputSummaryTag($tag, $count);
+       }
+     }
+     // set totalRating
+     if(!empty($summary['ratings'])){
+       $element->_value->totalRatings->_namespace = $this->xmlns['voxb'];
+       $element->_value->totalRatings->_value = $this->setTotalRatings($summary['ratings']);
+     }
+     // set userItems
+     foreach($value['ITEMDATA'] as $itemid=>$itemdata){
+       $element->_value->userItems[] =  $this->setFetchDataUserItems($itemdata, $contentType);
+     }     
     
-    if (empty($contentType)) {
-      return self::_error(CONTENTTYPES_MISSING);
-    }
+     return $element;
+  } 
 
-    $result = array();
-    if (is_array($params->fetchData)) {
-      $fetchData = &$params->fetchData;
-    } else {
-      $fetchData[] = &$params->fetchData;
-    }
-    $ilist = $olist = $openXIds = array();
-    if (is_array($fetchData)) {
-      foreach ($fetchData as $v) {
-				$objectIdentifierValue=$v->_value->voxbIdentifier->_value;
-        if (isset($v->_value->voxbIdentifier->_value)) {
-          // Requested data element is an item
-          $ilist[] = $v->_value->voxbIdentifier->_value;
-          $result[]['ITEM'] = $v->_value->voxbIdentifier->_value;
-        } 
-        else if (isset($v->_value->latestReviews->_value)) { 
-        	$orderby = " order by creation_date DESC";
-					$limit=$v->_value->latestReviews->_value;
-					if($limit>100) $limit=100;
-        } else {
-		$objectIdentifierValue=$v->_value->objectIdentifierValue->_value;
-
-			switch($v->_value->objectIdentifierType->_value) {
-				case "ISBN":
-					$objectIdentifierValue=materialId::normalizeISBN($objectIdentifierValue);
-					//$objectIdentifierValue=materialId::convertISBNToEAN($objectIdentifierValue);
-				break;
-				case "ISSN":
-					$objectIdentifierValue=materialId::normalizeISSN($objectIdentifierValue);
-				break;
-				case "EAN":
-					$objectIdentifierValue=materialId::normalizeEAN($objectIdentifierValue);
-				break;
-				case "FAUST":
-					$objectIdentifierValue=materialId::normalizeFAUST($objectIdentifierValue);
-				break;
-			}
-
-          // Requested data element is an object
-          $olist[] = "(OBJECTIDENTIFIERVALUE='" . $objectIdentifierValue . "' AND OBJECTIDENTIFIERTYPE='" . $v->_value->objectIdentifierType->_value . "')";
-          $openXIds[] = array('idType'=> $v->_value->objectIdentifierType->_value, 'idValue'=> $objectIdentifierValue);
-          $result[]['OBJECT'] = array("VALUE" => $objectIdentifierValue, "TYPE" => $v->_value->objectIdentifierType->_value);
-
-        }
-      }
-    }
-
-    // Find additional objects similar to the objects listed - using openXId
-    if (!empty($openXIds)) {
-      $openXIdMatches = openXidWrapper::sendGetIdsRequest($this->config->get_value("openxid_url", "setup") . '/', $openXIds);
-      $oxid_list = $oxidIds =  array();  // Initial value
-      if (is_array($openXIdMatches)) {
-        foreach ($openXIdMatches as $match) {
-          if (is_array($match['ids']['id'])) {
-            $oxidIds[] = array('requestedId'=>$match['requestedId'], 'id'=>$match['ids']['id']);
-            foreach ($match['ids']['id'] as $m) {
-              $oxid_list[] = "(OBJECTIDENTIFIERVALUE='{$m['idValue']}' AND OBJECTIDENTIFIERTYPE='" . strtoupper($m['idType']) . "')";
-          		$objects_by_id[strtoupper($m['idType']).$m['idValue']] = &$object_data[$data['OBJECTID']];
-							$objects_by_id[strtoupper($m['idType']).$m['idValue']]='';
-            }
-          }
-        }
-      }
-    }
-    // Fetch object data
-    if (!empty($olist)) {
-      try {
-        $this->oci->set_query("SELECT distinct * FROM voxb_objects WHERE " . implode(" OR ", array_merge($olist, $oxid_list)));
-        while ($data = $this->oci->fetch_into_assoc()) {
-          $object_data[$data['OBJECTID']] = $data;
-					$tv=$data['OBJECTIDENTIFIERTYPE'] . $data['OBJECTIDENTIFIERVALUE'];
-          $objects_by_id[$tv] = &$object_data[$data['OBJECTID']];
-        }
-				foreach($objects_by_id as $k=>$v) {
-					if($k!=$tv) {
-						//$objects_by_id[$k]=&$objects_by_id[$tv];
-					}
-				}
-      }
-      catch (ociException $e) {
-        verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-        return self::_error(ERROR_FETCHING_OBJECT_FROM_DATABASE);
-      }
-      if (empty($object_data)) {
-        return self::_error(COULD_NOT_FIND_OBJECT);
-      }
-    }
-
-    // Calculate the $derived_oxid_id array, that gives the requested id from any id/oxid
-    if (is_array($oxidIds)) foreach ($oxidIds as $ox) {
-      if (is_array($ox['id'])) foreach ($ox['id'] as $id) {
-        $requested_object_id = $objects_by_id[strtoupper($ox['requestedId']['idType']) . $ox['requestedId']['idValue']]['OBJECTID'];
-        $lll = strtoupper($id['idType']) . $id['idValue'];
-        $obj = $objects_by_id[strtoupper($id['idType']) . $id['idValue']];
-        if (!empty($obj)) {
-          $derived_oxid_id[$obj['OBJECTID']] = $requested_object_id;
-        }
-      }
-    }
-
-    // Fetch item data
-    try {
-      $where_clause = array();
-      if (!empty($olist))     $where_clause[] = "i.objectid IN (select distinct objectid from voxb_objects where " . implode(" OR ", $olist) . ")";
-      if (!empty($oxid_list)) $where_clause[] = "i.objectid IN (select distinct objectid from voxb_objects where " . implode(" OR ", $oxid_list) . ")";
-      if (!empty($ilist))     $where_clause[] = "ITEMIDENTIFIERVALUE in (" . implode(",", $ilist) . ")";
-      //mkr
-      if (empty($where_clause) && empty($orderby)) {
-        return self::_error(NO_ITEMS_OR_OBJECTS_TO_FETCH);
-      }
-      if(!empty($where_clause)) {
-      	$this->oci->set_query("select ITEMIDENTIFIERVALUE, USERID, OBJECTID, RATING, replace(to_char(creation_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as CREATION_DATE, replace(to_char(modification_date, 'YYYY-MM-DD=HH24:MI:SS'), '=', 'T') || '+01:00' as MODIFICATION_DATE from voxb_items i " .
-                      "where (" . implode(" OR ", $where_clause) . ") and disabled IS NULL");
-        while ($data = $this->oci->fetch_into_assoc()) {
-          if (isset($derived_oxid_id[$data['OBJECTID']])) {
-            $data['OBJECTID'] = $derived_oxid_id[$data['OBJECTID']];  // Overwrite the openxid's object id with the requested object id (though we know that this is a "similar" id derived from openxid)
-          }
-          $item_data[$data['ITEMIDENTIFIERVALUE']] = $data;
-        }
-      }
-
-   		//mkr 
-      if(!empty($orderby)) {
-				$this->oci->set_query("select * from voxb_items where itemidentifiervalue in (select itemid from voxb_reviews) order by creation_date DESC");
-      	while($data = $this->oci->fetch_into_assoc()) {
-			  	$item_data[$data['ITEMIDENTIFIERVALUE']]=$data;
-          $result[]['ITEM'] = $data['ITEMIDENTIFIERVALUE'];
-					
-				}
-
-				#echo $in_string; echo "<pre>"; print_r($item_data);
-				$item_data=array_slice($item_data,0,$limit,true);
-				$result=array_slice($result,0,$limit,true);
-				
-      }
-      
-    } catch (ociException $e) {
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-      return self::_error(ERROR_FETCHING_ITEM_FROM_DATABASE);
-    }
-
-    if (empty($item_data)) {
-      return self::_error(COULD_NOT_FIND_ITEM);
-    }
-		
-		$institutionId = str_replace("'", "''", strip_tags($fetchData[0]->_value->institutionId->_value));
-
-    // Fetch locals data mkr
-    try {
-			if(!empty($institutionId)) {
-				$delete=array();
-				foreach($item_data as $v) {
-					$userids[]=$v['USERID'];
-				}
-				$this->oci->set_query("select userid,institutionid from voxb_users where userid IN (" . implode(",", $userids) . ")");
-				$udata = $this->oci->fetch_all_into_assoc();
-				foreach($udata as $k=>$v) {
-					if($v['INSTITUTIONID']!=$institutionId) {
-						$uid=$v['USERID'];
-						$delete[$uid]=$uid;
-					}
-				}
-				foreach($item_data as $k=>$v) {
-					if(in_array($v['USERID'],$delete)) {
-						unset($item_data[$k]);
-					}
-				}
-			}
-			
-
-			if (empty($item_data)) {
-      	return self::_error(COULD_NOT_FIND_ITEM);
-    	}
-
-			$this->oci->set_query("select LOCALID, ITEMID, DATA, TYPE, ITEMTYPE from voxb_locals where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
-      while ($data = $this->oci->fetch_into_assoc()) {
-        $locals_data[$data['LOCALID']] = $data;
-      }
-    } catch (ociException $e) {
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-      return self::_error(ERROR_FETCHING_LOCALS_DATA_FROM_DATABASE);
-    }
-
-    // Fetch review data
-    try {
-      #echo ("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
-      $this->oci->set_query("select REVIEWID, ITEMID, TITLE, TYPE, DATA from voxb_reviews where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
-      while ($data = $this->oci->fetch_into_assoc()) {
-        $review_data[$data['REVIEWID']] = $data;
-      }
-
-			#print_r($review_data);
-			#exit();
-    } catch (ociException $e) {
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-      return self::_error(ERROR_FETCHING_REVIEW_DATA_FROM_DATABASE);
-    }
-
-    // Fetch tags data
-    try {
-      $this->oci->set_query("select TAG, ITEMID from voxb_tags where ITEMID in (" . implode(",", array_keys($item_data)) . ")");
-      while ($data = $this->oci->fetch_into_assoc()) {
-        $item_data[$data['ITEMID']]['TAGS'][] = $data['TAG'];
-      }
-    } catch (ociException $e) {
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-      return self::_error(ERROR_FETCHING_REVIEW_DATA_FROM_DATABASE);
-    }
-
-    // Put items elements in the $object_data array
-    if (is_array($item_data)) {
-      foreach ($item_data as $k=>$item) {
-        if (is_array($object_data[$item['OBJECTID']])) {
-          $object_data[$item['OBJECTID']]['ITEMS'][$k] = &$item_data[$k];
-        }
-      }
-    }
-    // Put locals elements in the $item_data array
-    if (is_array($locals_data)) {
-      foreach ($locals_data as $k=>$local) {
-        if (is_array($item_data[$local['ITEMID']])) {
-          $item_data[$local['ITEMID']]['LOCALS'][$k] = &$locals_data[$k];
-        }
-      }
-    }
-    // Put review elements in the $item_data array
-    if (is_array($review_data)) {
-      foreach ($review_data as &$review) {
-        if (is_array($item_data[$review['ITEMID']])) {
-          $item_data[$review['ITEMID']]['REVIEWS'][] = $review;
-        }
-      }
-      unset($review);
-    }
-
-    // Fetch user data and put into the $item_data array
-      try {
-        $this->oci->set_query("select userid, alias_name, profileurl from voxb_users u where u.userid in (select i.userid from voxb_items i where itemidentifiervalue in (" . implode(",", array_keys($item_data)) . ")) and disabled is null");
-        $userdata = array();
-        while ($udata = $this->oci->fetch_into_assoc()) {
-          $userdata[$udata['USERID']] = $udata;
-        }
-      }
-      catch (ociException $e) {
-        verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-        return self::_error(ERROR_FETCHING_USER_FROM_DATABASE);
-      }
-      if (is_array($item_data)) {
-        foreach ($item_data as &$item) {
-          $item['USERDATA'] = &$userdata[$item['USERID']];
-        }
-        unset($item);
-      }
-
-    // Calculate tags and ratings summaries
-    if (is_array($item_data)) {
-      foreach ($item_data as &$iData) {
-        if (is_array($iData['TAGS'])) {
-          foreach ($iData['TAGS'] as $tag) {
-            $iData['SUMMARY']['TAGS'][$tag]++;
-          }
-        }
-      }
-      unset($iData);
-    }
-    if (is_array($object_data)) {
-      foreach ($object_data as &$oData) {
-        if (is_array($oData['ITEMS'])) {
-          foreach ($oData['ITEMS'] as &$item) {
-            if (is_array($item['SUMMARY']['TAGS'])) {
-              foreach ($item['SUMMARY']['TAGS'] as $tag=>$count) {
-                $oData['SUMMARY']['TAGS'][$tag] += $count;
-              }
-            }
-            if (!empty($item['RATING'])) {
-							if(count($oData['ITEMS'])>1) {
-              	$oData['SUMMARY']['RATING_SUM'] += (float) $item['RATING'];
-              	$oData['SUMMARY']['RATING_COUNT']++;
-              	$oData['SUMMARY']['RATINGS'][$item['RATING']]++;
-							} else {
-							  $oData['SUMMARY']['RATING_SUM'] = $item['RATING'];
-                $oData['SUMMARY']['RATING_COUNT']=1;
-                $oData['SUMMARY']['RATINGS'][$item['RATING']]=1;
-							} 
-            } 
-          }
-          unset($item);
-        }
-      }
-      unset($oData);
-    }
-
-
-		#echo "<pre>";
-		#print_r($item_data);
-
-    // Now prepare output data
-    if (is_array($result)) {
-      foreach ($result as $res) {
-        $rTotalItemData = &$this->content->_value->totalItemData[];
-        $rTotalItemData->_namespace = $this->xmlns['voxb'];
-        if (isset($res['ITEM'])) {
-          // Output data for an item:
-          $rFetchData = &$rTotalItemData->_value->fetchData;
-          $rFetchData->_namespace = $this->xmlns['voxb'];
-          $this->_end_node($rFetchData, "voxbIdentifier", $res['ITEM']);
-          $item = $item_data[$res['ITEM']];
-          if ($contentType['summarytags'] and is_array($item['SUMMARY']['TAGS'])) {
-            foreach ($item['SUMMARY']['TAGS'] as $tag=>$count) {
-              $rSummaryTags = &$rTotalItemData->_value->summaryTags[];
-              $rSummaryTags->_namespace = $this->xmlns['voxb'];
-              $this->_end_node($rSummaryTags, "tag", $tag);
-              $this->_end_node($rSummaryTags, "tagCount", $count);
-            }
-          }
-          if ($contentType['totalratings'] and !empty($item['RATING'])) {
-            $rtotalRatings = &$rTotalItemData->_value->totalRatings."111";
-            $rtotalRatings->_namespace = $this->xmlns['voxb'];
-            $this->_end_node($rtotalRatings, "averageRating", $item['RATING']);
-            $this->_end_node($rtotalRatings, "totalNumberOfRaters", 1);
-            $rRatingSummary = &$rtotalRatings->_value->ratingSummary;
-            $rRatingSummary->_namespace = $this->xmlns['voxb'];
+  /** Output totalRatings element
+   *
+   */
+  function setTotalRatings($ratings){
+    $average = $this->calculateAverageRating($ratings);  
   
-            $this->_end_node($rRatingSummary, "rating", $item['RATING']);
-            $this->_end_node($rRatingSummary, "numberOfRaters", 1);
-          }
-          if (($contentType['local']  and !empty($item['LOCALS'])) or
-              ($contentType['review'] and !empty($item['REVIEWS'])) or
-              ($contentType['rating'] and !empty($item['RATING'])) or
-              ($contentType['tags']   and !empty($item['TAGS']))       ) {
-            $rUserItems = &$rTotalItemData->_value->userItems;
-            $rUserItems->_namespace = $this->xmlns['voxb'];
-            $this->_build_userItem($rUserItems, $item, $contentType);
-            $this->log->add_p5(1);
-          }
-        } elseif (is_array($res['OBJECT'])) {
-          // Output data for an object:
-          $rFetchData = &$rTotalItemData->_value->fetchData;
-          $rFetchData->_namespace = $this->xmlns['voxb'];
-          $this->_end_node($rFetchData, "objectIdentifierValue", $res['OBJECT']['VALUE']);
-          $this->_end_node($rFetchData, "objectIdentifierType", $res['OBJECT']['TYPE']);
-          $object_summary = $objects_by_id[$res['OBJECT']['TYPE'] . $res['OBJECT']['VALUE']]['SUMMARY'];
-          if ($contentType['summarytags'] and is_array($object_summary['TAGS'])) {
-            foreach ($object_summary['TAGS'] as $tag=>$count) {
-              $rSummaryTags = &$rTotalItemData->_value->summaryTags[];
-              $rSummaryTags->_namespace = $this->xmlns['voxb'];
-              $this->_end_node($rSummaryTags, "tag", $tag);
-              $this->_end_node($rSummaryTags, "tagCount", $count);
-            }
-          }
-
-          if ($contentType['totalratings'] and !empty($object_summary['RATINGS'])) {
-            $rtotalRatings = &$rTotalItemData->_value->totalRatings;
-            $rtotalRatings->_namespace = $this->xmlns['voxb'];
-            if ($object_summary['RATING_COUNT'] != 0) {  // This should not be possible
-              $this->_end_node($rtotalRatings, "averageRating", $object_summary['RATING_SUM'] / $object_summary['RATING_COUNT']);
-            }
-            $this->_end_node($rtotalRatings, "totalNumberOfRaters", $object_summary['RATING_COUNT']);
-            if (is_array($object_summary['RATINGS'])) {
-              foreach ($object_summary['RATINGS'] as $rating=>$rating_count) {
-                $rRatingSummary = &$rtotalRatings->_value->ratingSummary[];
-                $rRatingSummary->_namespace = $this->xmlns['voxb'];
-                $this->_end_node($rRatingSummary, "rating", $rating);
-                $this->_end_node($rRatingSummary, "numberOfRaters", $rating_count);
-              }
-            }
-          }
-          $object_items = $objects_by_id[$res['OBJECT']['TYPE'] . $res['OBJECT']['VALUE']]['ITEMS'];
-          if (is_array($object_items) and !empty($object_items)) {
-            $this->log->add_p7(1);  // Log one more hit for an object
-            foreach ($object_items as $k=>$objItem) {
-              if (($contentType['local']  and !empty($objItem['LOCALS'])) or
-                  ($contentType['review'] and !empty($objItem['REVIEWS'])) or
-                  ($contentType['rating'] and !empty($objItem['RATING'])) or
-                  ($contentType['tags']   and !empty($objItem['TAGS']))       ) {
-                $rUserItems = &$rTotalItemData->_value->userItems[];
-                $rUserItems->_namespace = $this->xmlns['voxb'];
-                $this->_build_userItem($rUserItems, $objItem, $contentType);
-                $this->log->add_p5(1);
-              }
-            }
-          }
-          $this->log->add_p6(1);
-        }
-      }
+    $element->averageRating->_namespace =  $this->xmlns['voxb'];
+    $element->averageRating->_value = $average['averageRating'];
+    $element->totalNumberOfRaters->_namespace =  $this->xmlns['voxb'];
+    $element->totalNumberOfRaters->_value = $average['totalNumberOfRaters'];
+    foreach($ratings as $rating => $count){
+      $element->ratingSummary[] =$this->outputRatingSummary($rating, $count);
     }
-    return $this->_epilog($this->response);
+    return $element;
   }
 
+  /** Output ratingSummary element
+   *
+   */
+  function outputRatingSummary($rating, $count){
+    $element->_namespace = $this->xmlns['voxb'];
+    $this->_end_node($element,'rating',$rating);
+    $this->_end_node($element,'numberOfRaters',$count);
+
+    return $element;
+  }
+
+  /** Calculate Average rating
+   *
+   * @param array $ratings; [rating=>count]
+   */
+  function calculateAverageRating($ratings){
+    $totalRating = 0;
+    $totalCount = 0;
+    foreach($ratings as $rating=>$count){
+      $totalRating = $totalRating + ($count*$rating);
+      $totalCount = $totalCount + $count;      
+    }
+    $value = $totalRating/$totalCount;
+    return array( 
+       'averageRating' => round( (float)$value,2 ),
+       'totalNumberOfRaters' => $totalCount,);
+  }
+
+  /** Get an OLS object for output of summaryTags
+   *
+   * @param array $summary; [tag=>count]
+   */
+  function outputSummaryTag($tag ,$count){
+    $element->_namespace = $this->xmlns['voxb'];
+    $this->_end_node($element, 'tag', $tag);
+    $this->_end_node($element, 'tagCount', $count);
+
+    return $element;
+  }
+
+  /** Set summaryTags and ratings
+   * @param array $userItems [itemID => userItems]
+   * @return array [tag=>count]
+   */
+  function getSummaryTags($userItems, $contentType){
+    $summary = array();
+    foreach($userItems as $itemId => $userItem){
+      if( isset($userItem['TAGS']) && isset($contentType['summarytags'])){
+	foreach($userItem['TAGS'] as $tag){	 
+	  if(isset($summary['summaryTags'][$tag['TAG']])){
+	    $summary['summaryTags'][$tag['TAG']]++;
+	  }
+	  else{
+	    $summary['summaryTags'][$tag['TAG']] = 1;
+	  }	  
+	}
+      }
+      if( isset($userItem['RATING']) && isset($contentType['totalratings'])){
+	if( isset($summary['ratings'][$userItem['RATING']] ) ){
+	  $summary['ratings'][$userItem['RATING']]++;
+	}
+	else{
+	  $summary['ratings'][$userItem['RATING']] = 1;
+	}
+      }      
+    }
+    return $summary;
+  }
+
+  
+
+  /** Output fetchData identifier element
+   *
+   */
+  function setFetchDataIdentifier($identifier){
+    $element->_namespace = $this->xmlns['voxb'];
+    if( is_array($identifier) ){
+      $this->_end_node($element, 'objectIdentifierValue',  $identifier[1]);
+      $this->_end_node($element, 'objectIdentifierType',  $identifier[0]);
+    }
+    else{
+      $this->_end_node($element, 'voxbIdentifier',  $identifier);
+    }
+    return $element;
+  }   
+
+  /** Output userItems element
+   *
+   */
+  function setFetchDataUserItems(array $value, $contentType){
+    $element->_namespace = $this->xmlns['voxb'];
+
+    // userAlias
+    $element->_value->userAlias->_namespace = $this->xmlns['voxb'];
+    $alias = &$element->_value->userAlias;
+    $this->_end_node($alias, 'aliasName', $value['USER']['ALIAS_NAME']);
+    $this->_end_node($alias, 'profileLink', $value['USER']['PROFILEURL']);
+
+    // userId
+    $this->_end_node($element, 'userId', $value['USER']['USERID']);
+
+    // identifier
+    $this->_end_node($element, 'voxbIdentifier', $value['ITEMIDENTIFIERVALUE']);
+
+    //ratings
+    if(isset($value['RATING']) && isset($contentType['rating']) ){  
+      $this->_end_node($element, 'rating', $value['RATING']);
+    }
+
+     // tags
+     if(is_array($value['TAGS']) && isset($contentType['tags']) ){
+      foreach($value['TAGS'] as $tag){
+	$element->_value->tags[] = $this->setFetchDataTag($tag);
+      }
+    }
+
+    // reviews
+    if(is_array($value['REVIEWS']) && isset($contentType['review']) ){
+      foreach($value['REVIEWS'] as $review){
+	$element->_value->review[] = $this->setFetchDataReview($review);
+      }
+    }
+
+    // locals
+    if(is_array($value['LOCALS']) && isset($contentType['local']) ){
+      foreach($value['LOCALS'] as $local){
+	$element->_value->local[] = $this->setFetchDataLocal($local);
+      }
+    }   
+  
+    // timestamp
+    $this->_end_node($element, 'timestamp', $value['CREATION_DATE']);
+    $this->_end_node($element, 'timestampModified', $value['MODIFICATION_DATE']);
+    
+    return $element;
+  }
+  
+  /** Output Tag element
+   *
+   */
+  function setFetchDataTag($tag){
+    $element->_namespace = $this->xmlns['voxb'];
+    $this->_end_node($element,'tag',$tag['TAG']);    
+    return $element;
+  }
+
+  /** Output local element
+   *
+   */
+  function setFetchDataLocal($local){
+    $element->_namespace = $this->xmlns['voxb'];
+    $this->_end_node($element,'localData',$local['DATA']);
+    $this->_end_node($element,'localType',$local['TYPE']);
+    $this->_end_node($element,'localItemType',$local['ITEMTYPE']);
+    
+    return $element;
+  }
+
+  /** Output review element
+   *
+   */
+  function setFetchDataReview(array $review){
+    $element->_namespace = $this->xmlns['voxb'];
+    // reviewTitle
+    $this->_end_node($element,'reviewTitle',$review['TITLE']);
+    // reviewData
+    $this->_end_node($element,'reviewData',$review['DATA']);
+    // reviewType
+    $this->_end_node($element,'reviewType',$review['TYPE']);
+    
+    return $element;
+  } 
+ 
+  /************ PJO end refactoring ******************/
+
+  
 
 
   /** fetchMyData
@@ -1841,6 +1603,8 @@ class voxb extends webServiceServer {
 // Private methods
 
   private function _prolog($method_name) {
+    self::$OpenXidUrl = $this->config->get_value("openxid_url", "setup");
+
     $this->log = new voxb_logger($this, $method_name);
     $response = $method_name . "Response";
     $this->content = &$this->response->$response;
@@ -1937,7 +1701,6 @@ class voxb extends webServiceServer {
     $this->_end_node($rUserItems, "timestamp", $item['CREATION_DATE']);
     $this->_end_node($rUserItems, "timestampModified", $item['MODIFICATION_DATE']);
   }
-
 }
 
 ?>
