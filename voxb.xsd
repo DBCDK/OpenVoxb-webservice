@@ -340,7 +340,7 @@
 			<xs:documentation xml:lang="en">The name of the authentication provider. On the same institution you can have more than one way to log on to the system. To make sure to identify the user correct	both  IdentityProvider, UserIdentifier and userIdentifierType will be the same.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="institutionId" type="xs:string">
+	<xs:element name="institutionId" type="xs:integer">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Identifier of the institution where the user is logged on.</xs:documentation>
 		</xs:annotation>
