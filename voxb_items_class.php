@@ -25,14 +25,10 @@ class voxb_items{
   private $params;
   private static $items;
   private $error;
-  private $institutionId;
-   
 
   public function __construct($oci, $params){   
     $this->oci = $oci;
-    $this->params = $params;   
-  
-    $this->institutionId = isset($params->institutionId) ? $params->institutionId : NULL;
+    $this->params = $params;     
   
     $this->setItems();
   }
@@ -58,12 +54,13 @@ class voxb_items{
   }
 
   private function getInstitutionId(){
+    $institutionId = isset($this->params->institutionId) ? $this->params->institutionId : NULL;
     $ids = NULL;
-    if(isset($this->institutionId)){
-      if(!is_array($this->institutionId)){
-	$this->institutionId = array($this->institutionId);
+    if(isset($institutionId)){
+      if(!is_array($institutionId)){
+	$institutionId = array($institutionId);
       }
-      foreach($this->institutionId as $institution){
+      foreach($institutionId as $institution){
 	$ids[] = $institution->_value;
       }
     }
