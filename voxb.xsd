@@ -219,7 +219,8 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="voxb:fetchData" maxOccurs="unbounded"/>
+			  	<xs:element ref="voxb:fetchData" maxOccurs="unbounded"/> 
+				<xs:element ref="voxb:institutionId" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="voxb:output"/>
 				<xs:element ref="voxb:callback" minOccurs="0"/>
 				<xs:element ref="voxb:outputType" minOccurs="0"/>
@@ -327,7 +328,6 @@
 				<xs:sequence>
 					<xs:element ref="voxb:objectIdentifierValue"/>
 					<xs:element ref="voxb:objectIdentifierType"/>
-					<xs:element ref="voxb:institutionId" minOccurs="0"/>
 				</xs:sequence>
 				<xs:element ref="voxb:voxbIdentifier"/>
 				<xs:element ref="voxb:latestReviews"/>
