@@ -324,7 +324,6 @@ class voxb_items{
     $filter = $this->filterClause();
     $limit = $this->getLatestReviewsLimit($this->params);
     $items = array();
-    // @TODO remember this; AND disabled IS NULL
     $this->oci->set_query('select * from('.
 			  'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' order by modification_date desc)'.
 			  'where rownum<='.$limit);   
