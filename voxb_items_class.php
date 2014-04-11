@@ -45,6 +45,9 @@ class voxb_items{
     case 'voxbItems':
       self::$items = $this->getVoxbItems();
       break;
+    case 'highestRated':
+      self::$items = $this->highestRated();
+      break;
     default:
       // @TODO set an appropiate message
       $this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
@@ -315,12 +318,33 @@ class voxb_items{
   /** Set items for latest reviews
    *
    */
+  private function highestRated(){
+    $columns = implode(',',$this->itemColumns());
+    $tables = $this->itemTables();
+    $filter = $this->filterClause();
+    $limit = $this->getItemLimit($this->params,'highestRatedReviews');
+    $data = array();
+    $this->oci->set_query('select * from('.
+			  'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' AND i.rating is not null  order by i.rating desc ,i.creation_date desc)'.
+			  'where rownum<='.$limit);   
+    while($row = $this->oci->fetch_into_assoc()) {
+      	$item_id = $row['ITEMIDENTIFIERVALUE'];
+	$data[$item_id]['ITEMIDENTIFIERVALUE'] = $item_id;
+	$data[$item_id]['ITEMDATA'][$item_id] = $row;
+    }  
+
+    return $data;
+  }
+
+  /** Set items for latest reviews
+   *
+   */
   private function latestReviews(){
     $columns = implode(',',$this->itemColumns());
     $tables = $this->itemTables();
     $filter = $this->filterClause();
-    $limit = $this->getLatestReviewsLimit($this->params);
-    $items = array();
+    $limit = $this->getItemLimit($this->params,'latestReviews');
+    $data = array();
     $this->oci->set_query('select * from('.
 			  'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' order by modification_date desc)'.
 			  'where rownum<='.$limit);   
@@ -339,6 +363,10 @@ class voxb_items{
     // latest reviews
     if( isset($params->fetchData->_value->latestReviews)){
       return 'latestReviews';
+    }
+    // highest rated
+    if( isset($params->fetchData->_value->highestRatedReviews)){
+      return 'highestRated';
     }
     // some object
     elseif($this->checkFetchDataElement($params->fetchData,'objectIdentifierType')){
@@ -369,8 +397,8 @@ class voxb_items{
     return FALSE;
   }
 
-  private function getLatestReviewsLimit($params){
-    $limit = isset( $params->fetchData->_value->latestReviews->_value ) ? $params->fetchData->_value->latestReviews->_value : 10;
+  private function getItemLimit($params, $element){
+    $limit = isset( $params->fetchData->_value->$element->_value ) ? $params->fetchData->_value->$element->_value : 1;
     if($limit > 100){
       $limit = 100;
     }
