@@ -1,0 +1,1559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="OpenVoxb" resourceRoot="" soapui-version="4.0.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="userGeneratedDataBinding" type="wsdl" bindingName="{http://oss.dbc.dk/ns/voxb}userGeneratedDataBinding" soapVersion="1_1" anonymous="optional" definition="http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/voxb.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/voxb.wsdl"><con:part><con:url>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/voxb.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://oss.dbc.dk/ns/voxb" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified">
+      <xs:import namespace="http://oss.dbc.dk/ns/voxb" schemaLocation="voxb.xsd"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createUserRequest">
+    <wsdl:part name="body" element="voxb:createUserRequest"/>
+  </wsdl:message>
+  <wsdl:message name="createUserResponse">
+    <wsdl:part name="body" element="voxb:createUserResponse"/>
+  </wsdl:message>
+  <wsdl:message name="updateUserRequest">
+    <wsdl:part name="body" element="voxb:updateUserRequest"/>
+  </wsdl:message>
+  <wsdl:message name="updateUserResponse">
+    <wsdl:part name="body" element="voxb:updateUserResponse"/>
+  </wsdl:message>
+  <wsdl:message name="deleteUserRequest">
+    <wsdl:part name="body" element="voxb:deleteUserRequest"/>
+  </wsdl:message>
+  <wsdl:message name="deleteUserResponse">
+    <wsdl:part name="body" element="voxb:deleteUserResponse"/>
+  </wsdl:message>
+  <wsdl:message name="undeleteUserRequest">
+    <wsdl:part name="body" element="voxb:undeleteUserRequest"/>
+  </wsdl:message>
+  <wsdl:message name="undeleteUserResponse">
+    <wsdl:part name="body" element="voxb:undeleteUserResponse"/>
+  </wsdl:message>
+  <wsdl:message name="fetchUserRequest">
+    <wsdl:part name="body" element="voxb:fetchUserRequest"/>
+  </wsdl:message>
+  <wsdl:message name="fetchUserResponse">
+    <wsdl:part name="body" element="voxb:fetchUserResponse"/>
+  </wsdl:message>
+  <wsdl:message name="createMyDataRequest">
+    <wsdl:part name="body" element="voxb:createMyDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="createMyDataResponse">
+    <wsdl:part name="body" element="voxb:createMyDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="updateMyDataRequest">
+    <wsdl:part name="body" element="voxb:updateMyDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="updateMyDataResponse">
+    <wsdl:part name="body" element="voxb:updateMyDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="deleteMyDataRequest">
+    <wsdl:part name="body" element="voxb:deleteMyDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="deleteMyDataResponse">
+    <wsdl:part name="body" element="voxb:deleteMyDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="undeleteMyDataRequest">
+    <wsdl:part name="body" element="voxb:undeleteMyDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="undeleteMyDataResponse">
+    <wsdl:part name="body" element="voxb:undeleteMyDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="fetchMyDataRequest">
+    <wsdl:part name="body" element="voxb:fetchMyDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="fetchMyDataResponse">
+    <wsdl:part name="body" element="voxb:fetchMyDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="fetchDataRequest">
+    <wsdl:part name="body" element="voxb:fetchDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="fetchDataResponse">
+    <wsdl:part name="body" element="voxb:fetchDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="searchDataRequest">
+    <wsdl:part name="body" element="voxb:searchDataRequest"/>
+  </wsdl:message>
+  <wsdl:message name="searchDataResponse">
+    <wsdl:part name="body" element="voxb:searchDataResponse"/>
+  </wsdl:message>
+  <wsdl:message name="reportOffensiveContentRequest">
+    <wsdl:part name="body" element="voxb:reportOffensiveContentRequest"/>
+  </wsdl:message>
+  <wsdl:message name="reportOffensiveContentResponse">
+    <wsdl:part name="body" element="voxb:reportOffensiveContentResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="userGeneratedDataPortType">
+    <wsdl:operation name="createUser">
+      <wsdl:input message="voxb:createUserRequest"/>
+      <wsdl:output message="voxb:createUserResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <wsdl:input message="voxb:updateUserRequest"/>
+      <wsdl:output message="voxb:updateUserResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser">
+      <wsdl:input message="voxb:deleteUserRequest"/>
+      <wsdl:output message="voxb:deleteUserResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="undeleteUser">
+      <wsdl:input message="voxb:undeleteUserRequest"/>
+      <wsdl:output message="voxb:undeleteUserResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="fetchUser">
+      <wsdl:input message="voxb:fetchUserRequest"/>
+      <wsdl:output message="voxb:fetchUserResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createMyData">
+      <wsdl:input message="voxb:createMyDataRequest"/>
+      <wsdl:output message="voxb:createMyDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="updateMyData">
+      <wsdl:input message="voxb:updateMyDataRequest"/>
+      <wsdl:output message="voxb:updateMyDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMyData">
+      <wsdl:input message="voxb:deleteMyDataRequest"/>
+      <wsdl:output message="voxb:deleteMyDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="undeleteMyData">
+      <wsdl:input message="voxb:undeleteMyDataRequest"/>
+      <wsdl:output message="voxb:undeleteMyDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="fetchMyData">
+      <wsdl:input message="voxb:fetchMyDataRequest"/>
+      <wsdl:output message="voxb:fetchMyDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="fetchData">
+      <wsdl:input message="voxb:fetchDataRequest"/>
+      <wsdl:output message="voxb:fetchDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="searchData">
+      <wsdl:input message="voxb:searchDataRequest"/>
+      <wsdl:output message="voxb:searchDataResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="reportOffensiveContent">
+      <wsdl:input message="voxb:reportOffensiveContentRequest"/>
+      <wsdl:output message="voxb:reportOffensiveContentResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="userGeneratedDataBinding" type="voxb:userGeneratedDataPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="createUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updateUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="deleteUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="undeleteUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="undeleteUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="undeleteUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fetchUser">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="fetchUserRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createMyData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="createMyDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createMyDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateMyData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="updateMyDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateMyDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMyData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="deleteMyDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteMyDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="undeleteMyData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="undeleteMyDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="undeleteMyDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fetchMyData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="fetchMyDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchMyDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fetchData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="fetchDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="fetchDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchData">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="searchDataRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchDataResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reportOffensiveContent">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="reportOffensiveContentRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reportOffensiveContentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="userGeneratedDataService">
+    <wsdl:port name="userGeneratedDataPortType" binding="voxb:userGeneratedDataBinding">
+      <soap:address location="https://voxb.addi.dk/1.0"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/voxb.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2011 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S)-->
+<xs:schema targetNamespace="http://oss.dbc.dk/ns/voxb" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+  <xs:annotation>
+    <xs:documentation xml:lang="en">XML schema for VoxB previous known as BSD</xs:documentation>
+  </xs:annotation>
+  <xs:element name="createUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userAlias"/>
+        <xs:element ref="voxb:authenticationFingerprint"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createUserResponse">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">If on return userAlias, its OK, if userAliasSuggestion then the userAlias is already taken - otherwise it is an error.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:userAliasSuggestion"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:userAlias"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateUserResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteUserRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Will also delete all of user's item</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteUserResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="undeleteUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="undeleteUserResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchUserRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice>
+          <xs:element ref="voxb:userId"/>
+          <xs:element ref="voxb:userAlias">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Not yet implemented in fetchUserRequest</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="voxb:authenticationFingerprint"/>
+        </xs:choice>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchUserResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:users" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createMyDataRequest">
+    <xs:annotation>
+      <xs:documentation>the request used for creating new voxB-data. local and tags are repeatable, rating and review are not. If the rated/reviewed/tagged object is not part of the voxB database (identified by objectIdentifierValue/Type), it will be created.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:item"/>
+        <xs:element ref="voxb:object"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createMyDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateMyDataRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Will over write earlier entries of the given type on the item</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:item"/>
+        <xs:element ref="voxb:object" minOccurs="0"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="updateMyDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteMyDataRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:item" minOccurs="0"/>
+        <xs:element ref="voxb:object" minOccurs="0"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="deleteMyDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="undeleteMyDataRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:institutionId"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="undeleteMyDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchMyDataRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchMyDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:choice>
+          <xs:element ref="voxb:result" maxOccurs="unbounded"/>
+          <xs:element ref="voxb:error"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchDataRequest">
+    <xs:annotation>
+      <xs:documentation>retrieve user created data about one or more objects, using either an object identifier (FAUST, ISBN, LOCAL etc.) or a specific voxB item identifier.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:fetchData" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:institutionId" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:output"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fetchDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:totalItemData" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchDataRequest">
+    <xs:annotation>
+      <xs:documentation>Only limited search functionality implemented yet.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:searchString"/>
+        <xs:element ref="voxb:qualifier"/>
+        <xs:element ref="voxb:truncate" minOccurs="0"/>
+        <xs:element ref="voxb:moreSearch" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchDataResponse">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:itemList"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="reportOffensiveContentRequest">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">userId is the reporting user. voxbIdentifier is the identifier of the item which contains the offending content</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:callback" minOccurs="0"/>
+        <xs:element ref="voxb:outputType" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="reportOffensiveContentResponse">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Return userId is the id of the reporting user.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:error"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="aliasName" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The name the user want to be represented by, when showing the "item" to other users.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="authenticationFingerprint">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userIdentifierValue"/>
+        <xs:element ref="voxb:userIdentifierType"/>
+        <xs:element ref="voxb:identityProvider"/>
+        <xs:element ref="voxb:institutionId"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="averageRating" type="xs:float">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The average rating for this object.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="booleanOperator" type="voxb:booleanOperatorType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">There are only 3 boolean operators. AND, OR and NOT.  They will be interpreted in the order of the sub-elements of the search element. Default: AND</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="callback" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">If outputType=json.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="contentType" type="voxb:contentTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Which output do you want: review, tags, summaryTags, rating, totalRatings or local?</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="error" type="voxb:errorType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">return info when an error occurs. The enumerations mentioned is only drafts.  The list of errorCode's will be completed when the service is released.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="fetchData">
+    <xs:complexType>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element ref="voxb:objectIdentifierValue"/>
+          <xs:element ref="voxb:objectIdentifierType"/>
+        </xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:latestReviews"/>
+        <xs:element ref="voxb:highestRatedReviews"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="identityProvider" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The name of the authentication provider. On the same institution you can have more than one way to log on to the system. To make sure to identify the user correct	both  IdentityProvider, UserIdentifier and userIdentifierType will be the same.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="institutionId" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Identifier of the institution where the user is logged on.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="item">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The actual data the user had put into the system.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:rating" minOccurs="0"/>
+        <xs:element ref="voxb:tags" minOccurs="0"/>
+        <xs:element ref="voxb:review" minOccurs="0"/>
+        <xs:element ref="voxb:local" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="itemList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="local">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:localData"/>
+        <xs:element ref="voxb:localType"/>
+        <xs:element ref="voxb:localItemType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="localData" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Local data. The data will be UTF-8 encoded.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="localItemType" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Here the local site can state what kind of data localData is. e.g. "Quotation", "Plus-text", "Minus-text", "Emotion" ...</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="localType" type="voxb:localTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Data can be of the types TXT or HTML.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="moreSearch">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:booleanOperator"/>
+        <xs:element ref="voxb:searchString"/>
+        <xs:element ref="voxb:qualifier"/>
+        <xs:element ref="voxb:truncate" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="numberOfRaters" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The number of users who had made the current rating.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="object">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">the objectIdentifier is the identifier of the object reviewed, tagged or rated by the current item.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:objectContributors" minOccurs="0"/>
+        <xs:element ref="voxb:objectIdentifierValue"/>
+        <xs:element ref="voxb:objectIdentifierType"/>
+        <xs:element ref="voxb:objectMaterialType" minOccurs="0"/>
+        <xs:element ref="voxb:objectPublicationYear" minOccurs="0"/>
+        <xs:element ref="voxb:objectTitle" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="objectContributors" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Contributor:Writer, Editor, Illustrator etc. If more than one contributor they should be separated by ";"</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="objectIdentifierType" type="voxb:objectIdentifierTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">if objectIdentifierType == 'LOCAL' it's assumed that the objectIdentifier is concatenated by the local id-number of the library-database + the library-number.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="objectIdentifierValue">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">ISBN, ISSN and FAUST is without spaces and hyphens.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+        <xs:maxLength value="64"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="objectMaterialType" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Material type of the object</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="objectPublicationYear" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Year of publication of the object</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="objectTitle">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The title of the object.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:maxLength value="256"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="output">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Specification of the output expected in the fetchResponse call.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:contentType" maxOccurs="unbounded">
+          <xs:annotation>
+            <xs:documentation>Which output do you want: review, tags, summaryTags, rating, totalRatings or local?</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="voxb:outputForm" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="outputForm" type="voxb:outputFormType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">edition: the data from the edition is retrieved. work: the data from the hole work is retrieved.
+										Only edition will be possible in the first version of VoxB.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="outputType" type="voxb:outputTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">E.g. xml, json or php. If not present outputType is soap.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="profileLink" type="xs:anyURI">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The URL to profile information about the user.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="qualifier" type="voxb:qualifierType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The type of search string in question.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="rating">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A rating is an integer between 0 and 100. If 0 or empty means no rating. From 1 to 100 is the actual rating</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="0"/>
+        <xs:maxInclusive value="100"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="ratingSummary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:rating"/>
+        <xs:element ref="voxb:numberOfRaters"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="result">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:timestamp"/>
+        <xs:element ref="voxb:timestampModified"/>
+        <xs:element ref="voxb:item"/>
+        <xs:element ref="voxb:object"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="review">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:reviewTitle" minOccurs="0"/>
+        <xs:element ref="voxb:reviewData"/>
+        <xs:element ref="voxb:reviewType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="reviewData" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The review the user had generated. The data will be UTF-8 encoded.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="reviewTitle">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The title of the review</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+        <xs:maxLength value="64"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="reviewType" type="voxb:reviewTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">In this version review data can only be of the type "TXT".
+				Is it the intention that it later on will be extended to HTML as well.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="searchString" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The string is in UTF-8 encoding. When used for search it will be converted to all lowercase characters.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="summaryTags">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Summary of each tag and number of time it has been assigned</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:tag"/>
+        <xs:element ref="voxb:tagCount"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="tag">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">tag can only be in txt format. Maxlength = 32</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+        <xs:maxLength value="32"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="tagCount" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Number of times a given tag has been assigned</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="tags">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:tag" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="timestamp" type="xs:dateTime">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The timestamp from the VOXB database.  In RFC-3339 (ex. 2009-09-09T09:09:09+00:01)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="timestampModified" type="xs:dateTime">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The time from the VOXB database that an item has last been modified.  In RFC-3339 (ex. 2009-09-09T09:09:09+00:01)</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="totalItemData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:fetchData"/>
+        <xs:element ref="voxb:summaryTags" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:totalRatings" minOccurs="0"/>
+        <xs:element ref="voxb:userItems" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:object" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="totalNumberOfRaters" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The total numbers of ratings this object has.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="totalRatings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:averageRating"/>
+        <xs:element ref="voxb:totalNumberOfRaters"/>
+        <xs:element ref="voxb:ratingSummary" maxOccurs="101"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="truncate" type="voxb:truncateType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Whether the searchText is a truncated text.  NONE or the absense of this element means none truncation.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="userAlias">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">userAlias will be unique in VOXB.  In some rare cases 2 users can have the same userAlias. Please see "Brugerbegrebet i BSD" for more information.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:aliasName"/>
+        <xs:element ref="voxb:profileLink" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="userAliasSuggestion" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The aliasName that the system suggesting in case the userAlias is already taken.  The userAliasSuggestion is available, no other user has taken this alias, at the time the response is given.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="userId" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The internal identification number for a user in the BSD database.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="userIdentifierValue">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Normally the borrower-code at the library (LogonSystem).</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:minLength value="1"/>
+        <xs:maxLength value="64"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="userIdentifierType" type="voxb:userIdentifierTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">CPR or local. This can be used when matching logins from different identityProviders.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="userItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userAlias"/>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:voxbIdentifier"/>
+        <xs:element ref="voxb:rating" minOccurs="0"/>
+        <xs:element ref="voxb:tags" minOccurs="0"/>
+        <xs:element ref="voxb:review" minOccurs="0"/>
+        <xs:element ref="voxb:local" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="voxb:timestamp"/>
+        <xs:element ref="voxb:timestampModified"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="userProfile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:userAlias"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="users">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voxb:userId"/>
+        <xs:element ref="voxb:userAlias"/>
+        <xs:element ref="voxb:authenticationFingerprint"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="voxbIdentifier" type="xs:integer">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The VOXB database unique number for a voxb item.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="latestReviews">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Fetches a list of latest reviews sorted by date, the number sets the length of the list.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="1"/>
+        <xs:maxInclusive value="100"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="highestRatedReviews">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Fetches a list of highest rated reviews, the number sets the length of the list.</xs:documentation>
+    </xs:annotation>
+    <xs:simpleType>
+      <xs:restriction base="xs:integer">
+        <xs:minInclusive value="1"/>
+        <xs:maxInclusive value="100"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:simpleType name="booleanOperatorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AND"/>
+      <xs:enumeration value="OR"/>
+      <xs:enumeration value="NOT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="contentTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="review"/>
+      <xs:enumeration value="tags"/>
+      <xs:enumeration value="summaryTags"/>
+      <xs:enumeration value="rating"/>
+      <xs:enumeration value="totalRatings"/>
+      <xs:enumeration value="local"/>
+      <xs:enumeration value="object"/>
+      <xs:enumeration value="all"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="errorType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="alias_already_taken"/>
+      <xs:enumeration value="authentication_error"/>
+      <xs:enumeration value="contentTypes missing."/>
+      <xs:enumeration value="Could not create data, userID did not exist."/>
+      <xs:enumeration value="Could not find object. Orphaned items should be deleted."/>
+      <xs:enumeration value="Could not locate user with given fingerprint"/>
+      <xs:enumeration value="Empty qualifier."/>
+      <xs:enumeration value="Empty searchstring."/>
+      <xs:enumeration value="Fingerprint not valid"/>
+      <xs:enumeration value="Found no item from given voxbIdentifier"/>
+      <xs:enumeration value="Invalid voxbIdentifier"/>
+      <xs:enumeration value="Item already exists."/>
+      <xs:enumeration value="item could not be deleted due to database error."/>
+      <xs:enumeration value="Item could not be undeleted due to database error."/>
+      <xs:enumeration value="Item does not exist."/>
+      <xs:enumeration value="LOCAL_id_not_found"/>
+      <xs:enumeration value="No objects found having given id."/>
+      <xs:enumeration value="No data found for user"/>
+      <xs:enumeration value="No user found with given id."/>
+      <xs:enumeration value="No user with given userId found"/>
+      <xs:enumeration value="No items found."/>
+      <xs:enumeration value="No fields to update"/>
+      <xs:enumeration value="No item with given voxbIdentifier"/>
+      <xs:enumeration value="Missing userId"/>
+      <xs:enumeration value="Missing voxbIdentifier"/>
+      <xs:enumeration value="Unknown error in database insertion."/>
+      <xs:enumeration value="Unknown error in updating."/>
+      <xs:enumeration value="Unknown qualifier."/>
+      <xs:enumeration value="unknown_voxbIdentifier"/>
+      <xs:enumeration value="User could not be deleted due to database error."/>
+      <xs:enumeration value="userID invalid. Must be an integer."/>
+      <xs:enumeration value="voxbIdentifier invalid. Must be an integer."/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="localTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TXT"/>
+      <xs:enumeration value="HTML"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="objectIdentifierTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EAN"/>
+      <xs:enumeration value="ISSN"/>
+      <xs:enumeration value="ISBN"/>
+      <xs:enumeration value="FAUST"/>
+      <xs:enumeration value="LOCAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="outputFormType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="edition"/>
+      <xs:enumeration value="work"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="outputTypeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The types of output that can be returned by the service.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="xml"/>
+      <xs:enumeration value="json"/>
+      <xs:enumeration value="php"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="qualifierType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="VOXB"/>
+      <xs:enumeration value="LOCAL"/>
+      <xs:enumeration value="EAN"/>
+      <xs:enumeration value="ISBN"/>
+      <xs:enumeration value="ISSN"/>
+      <xs:enumeration value="TAG"/>
+      <xs:enumeration value="TITLE">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Default truncation is both right and left</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CONTRIBUTOR">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Default truncation is both right and left</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="TIMESTAMPMIN"/>
+      <xs:enumeration value="TIMESTAMPMAX"/>
+      <xs:enumeration value="TIMESTAMPMODIFIEDMIN"/>
+      <xs:enumeration value="TIMESTAMPMODIFIEDMAX"/>
+      <xs:enumeration value="USERID"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="reviewTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TXT"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="truncateType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RIGHT"/>
+      <xs:enumeration value="LEFT"/>
+      <xs:enumeration value="BOTH"/>
+      <xs:enumeration value="NONE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="userIdentifierTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CPR"/>
+      <xs:enumeration value="local"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createMyData" bindingOperationName="createMyData" type="Request-Response" outputName="createMyDataResponse" inputName="createMyDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:createMyDataRequest>
+         <voxb:userId>?</voxb:userId>
+         <voxb:institutionId>?</voxb:institutionId>
+         <voxb:item>
+            <!--Optional:-->
+            <voxb:rating>?</voxb:rating>
+            <!--Optional:-->
+            <voxb:tags>
+               <!--1 or more repetitions:-->
+               <voxb:tag>?</voxb:tag>
+            </voxb:tags>
+            <!--Optional:-->
+            <voxb:review>
+               <!--Optional:-->
+               <voxb:reviewTitle>?</voxb:reviewTitle>
+               <voxb:reviewData>?</voxb:reviewData>
+               <voxb:reviewType>?</voxb:reviewType>
+            </voxb:review>
+            <!--Zero or more repetitions:-->
+            <voxb:local>
+               <voxb:localData>?</voxb:localData>
+               <voxb:localType>?</voxb:localType>
+               <voxb:localItemType>?</voxb:localItemType>
+            </voxb:local>
+         </voxb:item>
+         <voxb:object>
+            <!--Optional:-->
+            <voxb:objectContributors>?</voxb:objectContributors>
+            <voxb:objectIdentifierValue>?</voxb:objectIdentifierValue>
+            <voxb:objectIdentifierType>?</voxb:objectIdentifierType>
+            <!--Optional:-->
+            <voxb:objectMaterialType>?</voxb:objectMaterialType>
+            <!--Optional:-->
+            <voxb:objectPublicationYear>?</voxb:objectPublicationYear>
+            <!--Optional:-->
+            <voxb:objectTitle>?</voxb:objectTitle>
+         </voxb:object>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:createMyDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/createMyDataRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="createUser" bindingOperationName="createUser" type="Request-Response" outputName="createUserResponse" inputName="createUserRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:createUserRequest>
+         <voxb:userAlias>
+            <voxb:aliasName>?</voxb:aliasName>
+            <!--Optional:-->
+            <voxb:profileLink>?</voxb:profileLink>
+         </voxb:userAlias>
+         <voxb:authenticationFingerprint>
+            <voxb:userIdentifierValue>?</voxb:userIdentifierValue>
+            <voxb:userIdentifierType>?</voxb:userIdentifierType>
+            <voxb:identityProvider>?</voxb:identityProvider>
+            <voxb:institutionId>?</voxb:institutionId>
+         </voxb:authenticationFingerprint>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:createUserRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/createUserRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="deleteMyData" bindingOperationName="deleteMyData" type="Request-Response" outputName="deleteMyDataResponse" inputName="deleteMyDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:deleteMyDataRequest>
+         <voxb:voxbIdentifier>?</voxb:voxbIdentifier>
+         <voxb:institutionId>?</voxb:institutionId>
+         <!--Optional:-->
+         <voxb:item>
+            <!--Optional:-->
+            <voxb:rating>?</voxb:rating>
+            <!--Optional:-->
+            <voxb:tags>
+               <!--1 or more repetitions:-->
+               <voxb:tag>?</voxb:tag>
+            </voxb:tags>
+            <!--Optional:-->
+            <voxb:review>
+               <!--Optional:-->
+               <voxb:reviewTitle>?</voxb:reviewTitle>
+               <voxb:reviewData>?</voxb:reviewData>
+               <voxb:reviewType>?</voxb:reviewType>
+            </voxb:review>
+            <!--Zero or more repetitions:-->
+            <voxb:local>
+               <voxb:localData>?</voxb:localData>
+               <voxb:localType>?</voxb:localType>
+               <voxb:localItemType>?</voxb:localItemType>
+            </voxb:local>
+         </voxb:item>
+         <!--Optional:-->
+         <voxb:object>
+            <!--Optional:-->
+            <voxb:objectContributors>?</voxb:objectContributors>
+            <voxb:objectIdentifierValue>?</voxb:objectIdentifierValue>
+            <voxb:objectIdentifierType>?</voxb:objectIdentifierType>
+            <!--Optional:-->
+            <voxb:objectMaterialType>?</voxb:objectMaterialType>
+            <!--Optional:-->
+            <voxb:objectPublicationYear>?</voxb:objectPublicationYear>
+            <!--Optional:-->
+            <voxb:objectTitle>?</voxb:objectTitle>
+         </voxb:object>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:deleteMyDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/deleteMyDataRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="deleteUser" bindingOperationName="deleteUser" type="Request-Response" outputName="deleteUserResponse" inputName="deleteUserRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:deleteUserRequest>
+         <voxb:userId>?</voxb:userId>
+         <voxb:institutionId>?</voxb:institutionId>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:deleteUserRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/deleteUserRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchData" bindingOperationName="fetchData" type="Request-Response" outputName="fetchDataResponse" inputName="fetchDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchDataRequest>
+         <!--1 or more repetitions:-->
+         <voxb:fetchData>
+            <!--You have a CHOICE of the next 4 items at this level-->
+            <voxb:latestReviews>10</voxb:latestReviews>
+         </voxb:fetchData>
+         <!--Zero or more repetitions:-->
+         <voxb:output>
+            <!--1 or more repetitions:-->
+            <voxb:contentType>all</voxb:contentType>
+            <!--Optional:-->
+         </voxb:output>
+      </voxb:fetchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/fetchDataRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchMyData" bindingOperationName="fetchMyData" type="Request-Response" outputName="fetchMyDataResponse" inputName="fetchMyDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchMyDataRequest>
+         <voxb:userId>?</voxb:userId>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:fetchMyDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/fetchMyDataRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation isOneWay="false" action="" name="fetchUser" bindingOperationName="fetchUser" type="Request-Response" outputName="fetchUserResponse" inputName="fetchUserRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchUserRequest>
+         <!--You have a CHOICE of the next 3 items at this level-->
+         <voxb:userId>?</voxb:userId>
+         <voxb:userAlias>
+            <voxb:aliasName>?</voxb:aliasName>
+            <!--Optional:-->
+            <voxb:profileLink>?</voxb:profileLink>
+         </voxb:userAlias>
+         <voxb:authenticationFingerprint>
+            <voxb:userIdentifierValue>?</voxb:userIdentifierValue>
+            <voxb:userIdentifierType>?</voxb:userIdentifierType>
+            <voxb:identityProvider>?</voxb:identityProvider>
+            <voxb:institutionId>?</voxb:institutionId>
+         </voxb:authenticationFingerprint>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:fetchUserRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/fetchUserRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="reportOffensiveContent" bindingOperationName="reportOffensiveContent" type="Request-Response" outputName="reportOffensiveContentResponse" inputName="reportOffensiveContentRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:reportOffensiveContentRequest>
+         <voxb:userId>?</voxb:userId>
+         <voxb:voxbIdentifier>?</voxb:voxbIdentifier>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:reportOffensiveContentRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/reportOffensiveContentRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="searchData" bindingOperationName="searchData" type="Request-Response" outputName="searchDataResponse" inputName="searchDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:searchDataRequest>
+         <voxb:searchString>?</voxb:searchString>
+         <voxb:qualifier>?</voxb:qualifier>
+         <!--Optional:-->
+         <voxb:truncate>?</voxb:truncate>
+         <!--Zero or more repetitions:-->
+         <voxb:moreSearch>
+            <voxb:booleanOperator>?</voxb:booleanOperator>
+            <voxb:searchString>?</voxb:searchString>
+            <voxb:qualifier>?</voxb:qualifier>
+            <!--Optional:-->
+            <voxb:truncate>?</voxb:truncate>
+         </voxb:moreSearch>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:searchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/searchDataRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="undeleteMyData" bindingOperationName="undeleteMyData" type="Request-Response" outputName="undeleteMyDataResponse" inputName="undeleteMyDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:undeleteMyDataRequest>
+         <voxb:voxbIdentifier>?</voxb:voxbIdentifier>
+         <voxb:institutionId>?</voxb:institutionId>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:undeleteMyDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/undeleteMyDataRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="undeleteUser" bindingOperationName="undeleteUser" type="Request-Response" outputName="undeleteUserResponse" inputName="undeleteUserRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:undeleteUserRequest>
+         <voxb:userId>?</voxb:userId>
+         <voxb:institutionId>?</voxb:institutionId>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:undeleteUserRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/undeleteUserRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateMyData" bindingOperationName="updateMyData" type="Request-Response" outputName="updateMyDataResponse" inputName="updateMyDataRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:updateMyDataRequest>
+         <voxb:voxbIdentifier>?</voxb:voxbIdentifier>
+         <voxb:institutionId>?</voxb:institutionId>
+         <voxb:item>
+            <!--Optional:-->
+            <voxb:rating>?</voxb:rating>
+            <!--Optional:-->
+            <voxb:tags>
+               <!--1 or more repetitions:-->
+               <voxb:tag>?</voxb:tag>
+            </voxb:tags>
+            <!--Optional:-->
+            <voxb:review>
+               <!--Optional:-->
+               <voxb:reviewTitle>?</voxb:reviewTitle>
+               <voxb:reviewData>?</voxb:reviewData>
+               <voxb:reviewType>?</voxb:reviewType>
+            </voxb:review>
+            <!--Zero or more repetitions:-->
+            <voxb:local>
+               <voxb:localData>?</voxb:localData>
+               <voxb:localType>?</voxb:localType>
+               <voxb:localItemType>?</voxb:localItemType>
+            </voxb:local>
+         </voxb:item>
+         <!--Optional:-->
+         <voxb:object>
+            <!--Optional:-->
+            <voxb:objectContributors>?</voxb:objectContributors>
+            <voxb:objectIdentifierValue>?</voxb:objectIdentifierValue>
+            <voxb:objectIdentifierType>?</voxb:objectIdentifierType>
+            <!--Optional:-->
+            <voxb:objectMaterialType>?</voxb:objectMaterialType>
+            <!--Optional:-->
+            <voxb:objectPublicationYear>?</voxb:objectPublicationYear>
+            <!--Optional:-->
+            <voxb:objectTitle>?</voxb:objectTitle>
+         </voxb:object>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:updateMyDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/updateMyDataRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="updateUser" bindingOperationName="updateUser" type="Request-Response" outputName="updateUserResponse" inputName="updateUserRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:updateUserRequest>
+         <voxb:userId>?</voxb:userId>
+         <voxb:institutionId>?</voxb:institutionId>
+         <voxb:userAlias>
+            <voxb:aliasName>?</voxb:aliasName>
+            <!--Optional:-->
+            <voxb:profileLink>?</voxb:profileLink>
+         </voxb:userAlias>
+         <!--Optional:-->
+         <voxb:callback>?</voxb:callback>
+         <!--Optional:-->
+         <voxb:outputType>?</voxb:outputType>
+      </voxb:updateUserRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://oss.dbc.dk/ns/voxb/userGeneratedDataPortType/updateUserRequest"/></con:call></con:operation></con:interface><con:testSuite name="OpenVoxb Testsuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="fetchData" searchProperties="true" id="d78d2ab3-17ec-4f2d-abda-b484ddef272b"><con:settings/><con:testStep type="request" name="fetchData - review by voxbIdentifier"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>userGeneratedDataBinding</con:interface><con:operation>fetchData</con:operation><con:request name="fetchData - review by voxbIdentifier"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchDataRequest>
+         <!--1 or more repetitions:-->
+         <voxb:fetchData>	
+           <voxb:voxbIdentifier>7313</voxb:voxbIdentifier>
+         </voxb:fetchData>
+	 <!--0 or more repititions-->	 
+         <voxb:output>
+            <!--1 or more repetitions:-->
+            <voxb:contentType>review</voxb:contentType>
+         </voxb:output>
+      </voxb:fetchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains" name="Contains identifier"><con:configuration><token>&lt;voxb:voxbIdentifier>7313&lt;/voxb:voxbIdentifier></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains review"><con:configuration><token>&lt;voxb:review></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="contains useritems"><con:configuration><token>&lt;voxb:userItems></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple NotContains" name=" not contains local"><con:configuration><token>&lt;voxb:local></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="fetchData - all by type,value"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>userGeneratedDataBinding</con:interface><con:operation>fetchData</con:operation><con:request name="fetchData - all by type,value"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchDataRequest>
+         <!--1 or more repetitions:-->
+         <voxb:fetchData>
+            <voxb:objectIdentifierValue>4444</voxb:objectIdentifierValue>
+            <voxb:objectIdentifierType>LOCAL</voxb:objectIdentifierType>
+         </voxb:fetchData>
+	 <!--0 or more repititions-->
+	 
+         <voxb:output>
+            <!--1 or more repetitions:-->
+            <voxb:contentType>all</voxb:contentType>
+         </voxb:output>
+      </voxb:fetchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="Simple Contains" name="Contains identifier"><con:configuration><token>&lt;voxb:voxbIdentifier>7313&lt;/voxb:voxbIdentifier></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="contains summarytag"><con:configuration><token>&lt;voxb:summaryTags></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains totalRatings"><con:configuration><token>&lt;voxb:totalRatings></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains review"><con:configuration><token>&lt;voxb:review></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" name="Contains local"><con:configuration><token>&lt;voxb:local></token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="latestReview - 10"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>userGeneratedDataBinding</con:interface><con:operation>fetchData</con:operation><con:request name="latestReview - 10"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchDataRequest>
+         <!--1 or more repetitions:-->
+         <voxb:fetchData>
+            <!--You have a CHOICE of the next 4 items at this level-->
+            <voxb:latestReviews>10</voxb:latestReviews>
+         </voxb:fetchData>
+         <!--Zero or more repetitions:-->
+         <voxb:output>
+            <!--1 or more repetitions:-->
+            <voxb:contentType>all</voxb:contentType>
+            <!--Optional:-->
+         </voxb:output>
+      </voxb:fetchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="XPath Match" name="XPath Match assert 10'th element"><con:configuration><path>declare namespace ns1='http://oss.dbc.dk/ns/voxb';
+declare namespace voxb='http://oss.dbc.dk/ns/voxb';
+declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
+//voxb:totalItemData[9]</path><content><![CDATA[<voxb:totalItemData xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb" xmlns="http://oss.dbc.dk/ns/voxb">
+  <voxb:fetchData>
+    <voxb:voxbIdentifier>6743871</voxb:voxbIdentifier>
+  </voxb:fetchData>
+  <voxb:userItems>
+    <voxb:userAlias>
+      <voxb:aliasName>Lars</voxb:aliasName>
+      <voxb:profileLink>12818698671758593486@mail.invalid</voxb:profileLink>
+    </voxb:userAlias>
+    <voxb:userId>150587</voxb:userId>
+    <voxb:voxbIdentifier>6743871</voxb:voxbIdentifier>
+    <voxb:review>
+      <voxb:reviewTitle>review</voxb:reviewTitle>
+      <voxb:reviewData>Elverdronningens riddere nr 4</voxb:reviewData>
+      <voxb:reviewType>TXT</voxb:reviewType>
+    </voxb:review>
+    <voxb:timestamp>14-04-07</voxb:timestamp>
+    <voxb:timestampModified>14-04-07</voxb:timestampModified>
+  </voxb:userItems>
+</voxb:totalItemData>]]></content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>true</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="highestRated - 10"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>userGeneratedDataBinding</con:interface><con:operation>fetchData</con:operation><con:request name="highestRated - 10"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://guesstimate.dbc.dk/~pjo/OpenLibrary/OpenVoxb/trunk/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <voxb:fetchDataRequest>
+         <!--1 or more repetitions:-->
+         <voxb:fetchData>
+            <!--You have a CHOICE of the next 4 items at this level-->
+          
+            <voxb:highestRatedReviews>10</voxb:highestRatedReviews>
+         </voxb:fetchData>
+         <voxb:output>
+            <!--1 or more repetitions:-->
+            <voxb:contentType>all</voxb:contentType>
+         </voxb:output>
+      </voxb:fetchDataRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="XPath Match" name="XPath Match"><con:configuration><path>declare namespace ns1='http://oss.dbc.dk/ns/voxb';
+declare namespace voxb='http://oss.dbc.dk/ns/voxb';
+declare namespace SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/';
+//voxb:totalItemData[9]</path><content><![CDATA[<voxb:totalItemData xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:voxb="http://oss.dbc.dk/ns/voxb" xmlns="http://oss.dbc.dk/ns/voxb">
+  <voxb:fetchData>
+    <voxb:voxbIdentifier>6707620</voxb:voxbIdentifier>
+  </voxb:fetchData>
+  <voxb:totalRatings>
+    <voxb:averageRating>100</voxb:averageRating>
+    <voxb:totalNumberOfRaters>1</voxb:totalNumberOfRaters>
+    <voxb:ratingSummary>
+      <voxb:rating>100</voxb:rating>
+      <voxb:numberOfRaters>1</voxb:numberOfRaters>
+    </voxb:ratingSummary>
+  </voxb:totalRatings>
+  <voxb:userItems>
+    <voxb:userAlias>
+      <voxb:aliasName>Boggnasker.dk</voxb:aliasName>
+      <voxb:profileLink>http://www.boggnasker.dk</voxb:profileLink>
+    </voxb:userAlias>
+    <voxb:userId>148327</voxb:userId>
+    <voxb:voxbIdentifier>6707620</voxb:voxbIdentifier>
+    <voxb:rating>100</voxb:rating>
+    <voxb:review>
+      <voxb:reviewTitle/>
+      <voxb:reviewData>Boghoved fra Boggnasker.dk:
+
+ Jeg har læst mange bøger om mobning, selvmord og teenage piger. Men ingen bog har fanget mig så godt som den her. Hovedpersonen drukner ikke bare i selvmedlidenhed som de fleste, hun prøver at give igen. Skønt til en forandring. Jeg har læst flere bøger af Sarah Engell, men det har været sjældent at jeg kunne lide dem. Hun har virkelig gjort en flot præstation i denne. Jeg synes også at det hun får meget med. Hun holder ikke kun til en mobningsform, men tager flere med. Selve bogen var underholdende, seriøs og faktisk også morsom. Jeg ville virkelig anbefale bogen til andre. Man kommer ret hurtigt til problemet, hvor man andre gange skal igennem 80 sider bare for at møde hovedpersonens kæreste.
+
+Bogen er på 336 sider, så okay tyk, men det gik ufatteligt hurtigt at få den læst. Under fire timer tog det mig. Det eneste der irriterede mig lidt, var at nogle af karaktererne der næsten fik mig til at rive bogen fra hinanden. Ellers var den helt fantastisk. En af de ting jeg virkelig var vild med, var at hun havde fundet nogle andre personer der havde begået selvmord.
+
+Eksempel: Irland 2012: 15-årige Ciara Pugsley bliver mobbet i cyberspace og hænger sig i et skovområde nær sit hjem. Hendes elskede pony, Basil, går forrest i begravelsesoptoget. 
+
+Jeg synes virkelig at det viser hvor meget forfatteren har arbejdet for bogen og om hvor få selvmord vi egentlig kender til.
+
+De sider hvor vi hører om folk der har begået selvmord er en af mine to yndlings dele. Den anden yndlingsdel er slutningen. Jeg nægter at afslører den, men den er genial. 
+Jeg håber virkelig at nogen derude overvejer at læse den. Og håber at nævnte kan lide den. 
+
+Læs anmeldelsen med kommentarer og meget andet på: http://www.boggnasker.dk/vbforum/ungdomsb--ger/17505-21-mader-at-do.html</voxb:reviewData>
+      <voxb:reviewType>TXT</voxb:reviewType>
+    </voxb:review>
+    <voxb:timestamp>14-02-25</voxb:timestamp>
+    <voxb:timestampModified>14-02-25</voxb:timestampModified>
+  </voxb:userItems>
+</voxb:totalItemData>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:sensitiveInformation/></con:soapui-project>
