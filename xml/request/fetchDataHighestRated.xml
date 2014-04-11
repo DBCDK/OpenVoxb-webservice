@@ -1,0 +1,17 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope"
+xmlns:xml="http://www.w3.org/XML/1998/namespace"
+xmlns:voxb="http://oss.dbc.dk/ns/voxb"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<SOAP-ENV:Body>
+<voxb:fetchDataRequest>
+  <voxb:fetchData>    
+    <voxb:highestRatedReviews>10</voxb:highestRatedReviews>
+  </voxb:fetchData>
+  <voxb:output>
+    <voxb:contentType>all</voxb:contentType>
+  </voxb:output>
+</voxb:fetchDataRequest>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
