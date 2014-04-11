@@ -311,7 +311,7 @@ class voxb_items{
     }
     catch (ociException $e) {
       $this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
+      verbose::log(FATAL, "voxb_items_class(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
     } 
   }    
 
@@ -324,14 +324,20 @@ class voxb_items{
     $filter = $this->filterClause();
     $limit = $this->getItemLimit($this->params,'highestRatedReviews');
     $data = array();
-    $this->oci->set_query('select * from('.
-			  'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' AND i.rating is not null  order by i.rating desc ,i.creation_date desc)'.
-			  'where rownum<='.$limit);   
-    while($row = $this->oci->fetch_into_assoc()) {
+    try {
+      $this->oci->set_query('select * from('.
+			    'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' AND i.rating is not null order by i.rating desc ,i.creation_date desc)'.
+			    'where rownum<='.$limit);   
+      while($row = $this->oci->fetch_into_assoc()) {
       	$item_id = $row['ITEMIDENTIFIERVALUE'];
 	$data[$item_id]['ITEMIDENTIFIERVALUE'] = $item_id;
 	$data[$item_id]['ITEMDATA'][$item_id] = $row;
-    }  
+      }  
+    }
+    catch (ociException $e) {
+      $this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
+      verbose::log(FATAL, "voxb_items_class(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
+    } 
 
     return $data;
   }
@@ -345,13 +351,19 @@ class voxb_items{
     $filter = $this->filterClause();
     $limit = $this->getItemLimit($this->params,'latestReviews');
     $data = array();
-    $this->oci->set_query('select * from('.
-			  'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' order by modification_date desc)'.
-			  'where rownum<='.$limit);   
-    while($row = $this->oci->fetch_into_assoc()) {
-      	$item_id = $row['ITEMIDENTIFIERVALUE'];
+    try {
+      $this->oci->set_query('select * from('.
+			    'select '.$columns.' from '.$tables.' where i.itemidentifiervalue in (select itemid from voxb_reviews) and '.$filter.' order by modification_date desc)'.
+			    'where rownum<='.$limit);   
+      while($row = $this->oci->fetch_into_assoc()) {
+	$item_id = $row['ITEMIDENTIFIERVALUE'];
 	$data[$item_id]['ITEMIDENTIFIERVALUE'] = $item_id;
 	$data[$item_id]['ITEMDATA'][$item_id] = $row;
+      } 
+    }
+    catch (ociException $e) {
+      $this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
+      verbose::log(FATAL, "voxb_items_class(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
     }   
     return $data;
   }
