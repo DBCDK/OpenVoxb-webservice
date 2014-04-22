@@ -80,6 +80,10 @@ class voxb_items{
    */
   public function data(){   
     $data = self::$items;
+
+
+  
+
     // NOTICE item array passed as reference
     if(!empty($data)){
       foreach($data as $identifier=>&$item){
@@ -133,8 +137,8 @@ class voxb_items{
    */
   private function filterClause(){
     $clause = 'i.disabled IS NULL AND u.disabled IS NULL';
+
     $institutionId = $this->getInstitutionId();
-   
     if(isset($institutionId)){
       $clause.=' AND u.institutionId IN ('.implode(',',$institutionId).')';
     }
@@ -173,10 +177,10 @@ class voxb_items{
       $this->normalizeIdentifier($identifier);
 
       $objectIdentifiers[] = $identifier;
-    }
+    }    
 
     $objects = new voxb_objects($this->oci);
-    $ids =  $objects->getObjectIdsFromIdentifiers($objectIdentifiers);
+    $ids[] =  $objects->getObjectIdsFromIdentifiers($objectIdentifiers);
 
     return $this->getItemsFromObjectIds($ids);   
   }
@@ -209,34 +213,40 @@ class voxb_items{
    * @param array $objectIds [OBJECTID => [OBJECTIDENTIFIERTYPE,OBJECTIDENTIFIERVALUE]]
    * @return array[identifier=>[itemid=>[itemvalue]]];
    */
-  private function getItemsFromObjectIds($objectIds){ 
-    $ids = array_keys($objectIds);
-    if(empty($ids)){
-      $this->error = COULD_NOT_FIND_ITEM;
-      return;
-    }
-    $columns = implode(',',$this->itemColumns());
-    $tables = $this->itemTables();
-    $filter = $this->filterClause();  
-    try {
-      $this->oci->set_query('SELECT '.$columns.' from '.$tables.' where i.objectid in ('.implode(',',$ids).') AND '.$filter);
-      while ($row = $this->oci->fetch_into_assoc()) {
-	$item_id = $row['ITEMIDENTIFIERVALUE'];
-	// enrich with OBJECTIDENTIFIERVALUE and OBJECTIDENTIFIERTYPE
-	$object_id = $row['OBJECTID'];
-	$data[$object_id]['OBJECTIDENTIFIERTYPE'] = $objectIds[$object_id]['OBJECTIDENTIFIERTYPE'];
-	$data[$object_id]['OBJECTIDENTIFIERVALUE'] = $objectIds[$object_id]['OBJECTIDENTIFIERVALUE'];
-	$data[$object_id]['ITEMDATA'][$item_id] = $row;
+  private function getItemsFromObjectIds($object_array){
+    foreach($object_array as $objectIds){
+      $ids = array_keys($objectIds);      
+      if(empty($ids)){
+	$this->error = COULD_NOT_FIND_ITEM;
+	return;
       }
-    }
-    catch (ociException $e) {
-      echo $e->getMessage();
-      $this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
-      verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
-    } 
+      $columns = implode(',',$this->itemColumns());
+      $tables = $this->itemTables();
+      $filter = $this->filterClause();
 
+      // pick first objectid as key for this entry. There might be multiple objects, if 
+      // OpenXid has found any matches, but they are the same bundle
+      $object_id = $ids[0];
+  
+      try {
+	$this->oci->set_query('SELECT '.$columns.' from '.$tables.' where i.objectid in ('.implode(',',$ids).') AND '.$filter);
+	while ($row = $this->oci->fetch_into_assoc()) {
+	  $item_id = $row['ITEMIDENTIFIERVALUE'];
+	  // enrich with OBJECTIDENTIFIERVALUE and OBJECTIDENTIFIERTYPE
+	  $data[$object_id]['OBJECTIDENTIFIERTYPE'] = $objectIds[$object_id]['OBJECTIDENTIFIERTYPE'];
+	  $data[$object_id]['OBJECTIDENTIFIERVALUE'] = $objectIds[$object_id]['OBJECTIDENTIFIERVALUE'];
+	  $data[$object_id]['ITEMDATA'][$item_id] = $row;
+	}
+      }
+      catch (ociException $e) {
+	echo $e->getMessage();
+	$this->error = ERROR_FETCHING_ITEM_FROM_DATABASE;
+	verbose::log(FATAL, "fetchData(".__LINE__."):: OCI select error: " . $this->oci->get_error_string());
+      } 
+    }
     return $data;
   }
+
  
   /** Enrich data array with tags
    * @TODO .. does this method belong here ..?? 
