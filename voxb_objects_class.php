@@ -19,11 +19,13 @@ class voxb_objects{
    */
   public function getObjectIdsFromIdentifiers($objectIdentifiers,$useXID = TRUE){
     if( $useXID ){
-      $objectIdentifiers = $this->arrayMergeValues($this->getFromOpenXID($objectIdentifiers), $objectIdentifiers);     
+      $XIDS = $this->getFromOpenXID($objectIdentifiers);
+      $objectIdentifiers = $this->arrayMergeValues($XIDS, $objectIdentifiers);     
     } 
 
     $whereClause = $this->objectSqlWhereClause($objectIdentifiers);   
     $ret = $this->getObjectIdsAndIdentifiers($whereClause);
+    
     return $ret;
   }
 
@@ -106,7 +108,6 @@ class voxb_objects{
   private function getFromOpenXID($objectIdentifiers){
     $url = voxb::$OpenXidUrl.'/';
     $identifiers = openXidWrapper::sendGetIdsRequest($url, $objectIdentifiers);   
-
     return $this->parseOpenXID($identifiers);    
   }
 
@@ -114,9 +115,10 @@ class voxb_objects{
     $ret = array();
     foreach($identifiers as $id){
       if(!isset($id['error'])){
-	$ret += $id['ids']['id'];
+	$ret = array_merge($ret,$id['ids']['id']);
       }        
     }     
+
     return $ret;  
   }
 }
