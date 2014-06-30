@@ -292,8 +292,8 @@ while ($result = $oci->fetch_into_assoc()) {
 }
 
 //$startDebug = true;
-print_r($data);
-exit();
+//print_r($data);
+//exit();
 // create XML output
 foreach ($data as $email => $array) {
 //    if ($email != 'kl@dbc.dk')
