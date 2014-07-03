@@ -25,6 +25,7 @@ foreach ($head as $coltitle => $value)
 ?>
 <style>
     td { text-align: center;}
+    th { width: 100px; }
 </style>
 <meta charset="UTF-8">
 <body class="flowers">
@@ -148,33 +149,43 @@ function PrintInstitution($oci_voxb, $instid) {
     <table border="0">
 
         <tr>
-            <th>Antal brugere</th>
-            <th>Antal unikke brugere</th>
+            <th>Brugere</th>
+            <th>Unikke brugere</th>
+            <th>Ratings</th>
+            <th>Reviews</th>
+            <th>Tags</th>
+            <th>Locals</th>
         </tr>
         <tr>
             <td style='text-align: center;'><?php echo $userCounts[0]['U1']; ?></td>
             <td style='text-align: center;'><?php echo $userCounts[0]['U2']; ?></td>
-        </tr>
-    </table>
-    <table border="0">
-        <tr>
-            <?php
-            echo "<th>Total Ratings</th>";
-            echo "<th>Total Reviews</th>";
-            echo "<th>Total Tags</th>";
-            echo "<th>Total Locals</th>";
-            foreach ($ratings as $key => $val)
-                echo "<th style='width:60px'>$key</th>";
-            ?>
-        </tr>
-        <tr>
             <?php
             echo "<td>$totalRatings</td>";
             echo "<td>$totalReviews</td>";
             echo "<td>$totalTags</td>";
             echo "<td>$totalLocals</td>";
-            foreach ($ratings as $key => $val)
-                echo "<td>$val</td>";
+            ?>
+        </tr>
+    </table>
+    <table border="0">
+        <tr>
+            <?php
+//            echo "<th>Ratings</th>";
+//            echo "<th>Reviews</th>";
+//            echo "<th>Tags</th>";
+//            echo "<th>Locals</th>";
+//            foreach ($ratings as $key => $val)
+//                echo "<th style='width:80px'>$key</th>";
+            ?>
+        </tr>
+        <tr>
+            <?php
+//            echo "<td>$totalRatings</td>";
+//            echo "<td>$totalReviews</td>";
+//            echo "<td>$totalTags</td>";
+//            echo "<td>$totalLocals</td>";
+//            foreach ($ratings as $key => $val)
+//                echo "<td>$val</td>";
             ?>
         </tr>
     </table>
