@@ -7,6 +7,7 @@ $config = new inifile('voxb.ini');
 
 $voxb_oci_login = $config->get_value("ocilogon", "setup");
 
+echo "logomn: $voxb_oci_login\n";
 $oci_voxb = new oci($voxb_oci_login);
 $oci_voxb->set_charset('UTF8');
 $oci_voxb->connect();
