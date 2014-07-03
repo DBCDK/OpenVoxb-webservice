@@ -1,8 +1,6 @@
 <?php
-require_once('../OLS_class_lib/oci_class.php');
-require_once('../OLS_class_lib/verbose_class.php');
-require_once('../OLS_class_lib/material_id_class.php');
-require_once('../OLS_class_lib/inifile_class.php');
+require_once('oci_class.php');
+require_once('inifile_class.php');
 
 
 $config = new inifile('../voxb.ini');
