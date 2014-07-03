@@ -1,0 +1,90 @@
+/* 
+    Document   : styles
+    Created on : 12-04-2013, 13:10:12
+    Author     : hhl
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body.flowers 
+{
+
+background-image:url('lkpp_baggrunde_blomster_0029.jpg');
+    background-repeat:no-repeat;
+}
+
+@media print
+{
+    .screen
+    {
+        display: none;
+    }
+    .center
+    {
+        margin:auto;
+        margin-top: 0px;
+        width:auto;
+    }
+
+}
+
+@media screen
+{
+    .center
+    {
+        margin:auto;
+        margin-top: 50px;
+        width:80%;
+    }
+}
+
+.tab
+{
+    font-size: 16px;
+}
+.overskrift
+{
+    font-size: 25px;
+    font-weight: bold;
+}
+.normal 
+{
+    font-size: 14px;
+
+}
+.resultOK
+{
+    font-size: 20px;
+    color: green;
+
+}
+.resultERROR
+{
+    font-size: 20px;
+    color: red;
+}
+.print
+{
+    text-align: left;
+    width: auto;
+    font-weight: normal;
+}
+.thetext
+{
+    font-size: 20px;
+}
+.info
+{
+    margin-right: 5px;
+    font-size: 14px;
+}
+.milestone
+{
+    font-size: 20px;
+    color: blue;
+    text-align: right;
+}
