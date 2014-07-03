@@ -3,7 +3,7 @@ require_once('oci_class.php');
 require_once('inifile_class.php');
 
 
-$config = new inifile('../voxb.ini');
+$config = new inifile('voxb.ini');
 
 $voxb_oci_login = $config->get_value("ocilogon", "setup");
 
